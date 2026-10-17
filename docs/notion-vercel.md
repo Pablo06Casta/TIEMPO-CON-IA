@@ -5,7 +5,7 @@ Notion será el editor y almacén de tus recursos. La [web de Vercel](https://ti
 ## 1. Crear la base de datos en Notion
 
 1. En Notion, pulsa **Nueva página → Tabla → Nueva base de datos**. Usa una tabla de página completa y llámala, por ejemplo, **Recursos TIEMPO CON IA**.
-2. Deja la primera columna como **Título** (puedes llamarla `Nombre`). Añade estas cuatro propiedades con **exactamente** estos nombres y tipos:
+2. Deja la primera columna como **Título** (puedes llamarla `Nombre`). Añade estas cuatro propiedades con estos nombres y tipos. `tipo`, `descripción` y `archivo` también pueden estar en minúsculas; usa **`Publicar`** exactamente así para la casilla:
 
    | Propiedad | Tipo en Notion | Qué poner |
    | --- | --- | --- |

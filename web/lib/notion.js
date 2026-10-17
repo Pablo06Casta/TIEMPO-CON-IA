@@ -74,16 +74,23 @@ function plainText(richText) {
     : "";
 }
 
+function namedProperty(properties, name) {
+  const entry = Object.entries(properties).find(
+    ([key]) => key.toLocaleLowerCase('es') === name.toLocaleLowerCase('es'),
+  );
+  return entry?.[1];
+}
+
 export function publicResource(page) {
   const properties = page.properties || {};
-  if (page.archived || page.in_trash || properties.Publicar?.checkbox !== true)
+  if (page.archived || page.in_trash || namedProperty(properties, 'Publicar')?.checkbox !== true)
     return null;
   const titleProperty = Object.values(properties).find(
     (property) => property.type === "title",
   );
   const title = plainText(titleProperty?.title).trim();
-  const description = plainText(properties["Descripción"]?.rich_text).trim();
-  const file = properties.Archivo?.files?.[0];
+  const description = plainText(namedProperty(properties, 'Descripción')?.rich_text).trim();
+  const file = namedProperty(properties, 'Archivo')?.files?.[0];
   const fileUrl = file?.file?.url || file?.external?.url;
   if (!title || !file?.name || !fileUrl) return null;
   try {
@@ -91,7 +98,7 @@ export function publicResource(page) {
   } catch {
     return null;
   }
-  const kind = properties.Tipo?.select?.name?.trim().toLowerCase() || "otro";
+  const kind = namedProperty(properties, 'Tipo')?.select?.name?.trim().toLowerCase() || "otro";
   const kinds = {
     prompt: "prompt",
     skill: "skill",

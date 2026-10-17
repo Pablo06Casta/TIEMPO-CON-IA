@@ -52,6 +52,21 @@ test("oculta borradores y páginas eliminadas", () => {
   assert.equal(publicResource(page({ in_trash: true })), null);
 });
 
+test("lee las columnas ya creadas con nombres en minúscula", () => {
+  const original = page();
+  const properties = {
+    Nombre: original.properties.Nombre,
+    tipo: original.properties.Tipo,
+    descripción: original.properties.Descripción,
+    archivo: original.properties.Archivo,
+    Publicar: original.properties.Publicar,
+  };
+  const resource = publicResource(page({ properties }));
+  assert.equal(resource.kind, "skill");
+  assert.equal(resource.description, "Resume reuniones.");
+  assert.equal(resource.file, "reuniones.zip");
+});
+
 test("la lista pública excluye enlaces privados de Notion", async () => {
   process.env.NOTION_TOKEN = "token-de-prueba";
   process.env.NOTION_DATABASE_ID = databaseId;
