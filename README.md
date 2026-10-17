@@ -15,6 +15,8 @@ No se necesita Supabase ni Vercel para desarrollar o probar esta fase. Un despli
 
 Para tenerla disponible las 24 horas desde tus dispositivos con alojamiento Always Free, sigue la [guía de Oracle y Tailscale](docs/oracle-gratis.md). La disponibilidad gratuita depende de la capacidad y las condiciones de esas plataformas.
 
+Si prefieres no usar Oracle y puedes mantener tu Mac encendido, sigue la [guía gratuita para Mac y Tailscale](docs/mac-gratis.md).
+
 Requiere **Node 24** y npm. Desde la raíz del repositorio:
 
 ```bash
