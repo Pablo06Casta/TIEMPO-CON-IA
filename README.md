@@ -2,7 +2,7 @@
 
 Estudio privado para crear y organizar prompts, skills, agentes documentales, automatizaciones y proyectos. Esta entrega es una aplicación local de una sola instancia. No publica recursos ni llama a modelos de pago.
 
-La [web pública](web/README.md) se construye de forma independiente desde `web/`. Su biblioteca puede mostrar los archivos añadidos al catálogo de GitHub y los recursos aprobados en [Notion](docs/notion-vercel.md). No contiene los datos del estudio privado.
+La [web pública](web/README.md) se construye de forma independiente desde `web/`. Incluye una biblioteca de recursos descargables añadidos a GitHub. Para publicar mediante Codex, adjunta un archivo en un chat con este repositorio y escribe `@TIEMPO-CON-IA-WEB`. No contiene los datos del estudio privado.
 
 ## Decisiones técnicas y coste
 
