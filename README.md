@@ -2,6 +2,8 @@
 
 Estudio privado para crear y organizar prompts, skills, agentes documentales, automatizaciones y proyectos. Esta entrega es una aplicación local de una sola instancia. No publica recursos ni llama a modelos de pago.
 
+La [web de presentación pública](web/README.md) se construye de forma independiente desde `web/` y puede publicarse como sitio estático desde GitHub. No contiene los datos del estudio.
+
 ## Decisiones técnicas y coste
 
 - **Next.js 16 + React 19 + TypeScript:** una sola aplicación para la interfaz y la API. Facilita el desarrollo y evita un servicio adicional.
