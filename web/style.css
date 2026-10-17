@@ -645,6 +645,88 @@ summary:focus-visible {
   margin: 0;
 }
 
+.catalog-section {
+  background: #f5f9f8;
+  border-bottom: 1px solid #e0ece9;
+}
+.catalog-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 50px;
+  margin: 24px 0 38px;
+}
+.catalog-heading h2 {
+  max-width: 610px;
+  margin: 0;
+  font-size: clamp(2.2rem, 3.5vw, 3.65rem);
+  line-height: 1.19;
+}
+.catalog-heading p {
+  max-width: 410px;
+  margin: 0;
+  color: #627387;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.catalog-card,
+.catalog-message {
+  border: 1px solid #d8e7e3;
+  border-radius: 15px;
+  background: #fff;
+  padding: 28px;
+}
+.catalog-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 270px;
+}
+.catalog-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #31867f;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.catalog-extension {
+  color: #8899a5;
+}
+.catalog-card h3 {
+  margin: 27px 0 10px;
+  font-size: 21px;
+  line-height: 1.3;
+}
+.catalog-card p {
+  margin: 0 0 22px;
+  color: #687b89;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.catalog-download {
+  width: fit-content;
+  margin-top: auto;
+  color: #1e7377;
+  font-size: 12px;
+  font-weight: 800;
+}
+.catalog-download:hover {
+  text-decoration: underline;
+}
+.catalog-message {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #627387;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
 .project-section {
   background: #f3f8f6;
 }
@@ -848,6 +930,15 @@ summary:focus-visible {
   .areas-grid {
     grid-template-columns: 1fr;
   }
+  .catalog-heading {
+    display: block;
+  }
+  .catalog-heading p {
+    margin-top: 17px;
+  }
+  .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .area-card {
     min-height: 230px;
   }
@@ -895,6 +986,9 @@ summary:focus-visible {
   .project-panel {
     display: block;
     padding: 33px;
+  }
+  .catalog-grid {
+    grid-template-columns: 1fr;
   }
   .project-stamp {
     margin: 30px 0 0 auto;

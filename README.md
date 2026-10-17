@@ -2,7 +2,7 @@
 
 Estudio privado para crear y organizar prompts, skills, agentes documentales, automatizaciones y proyectos. Esta entrega es una aplicación local de una sola instancia. No publica recursos ni llama a modelos de pago.
 
-La [web de presentación pública](web/README.md) se construye de forma independiente desde `web/` y puede publicarse como sitio estático desde GitHub. No contiene los datos del estudio.
+La [web pública](web/README.md) se construye de forma independiente desde `web/`. Incluye una biblioteca de prompts y skills con descargas, que comienza vacía y solo muestra los archivos añadidos expresamente al catálogo público. No contiene los datos del estudio privado.
 
 ## Decisiones técnicas y coste
 

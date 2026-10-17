@@ -19,6 +19,7 @@
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/catalog.js"></script>
     <title>TIEMPO CON IA · Ideas que devuelven tiempo</title>
   </head>
   <body>
@@ -38,6 +39,7 @@
         <nav class="desktop-nav" aria-label="Navegación principal">
           <a href="#enfoque">Enfoque</a>
           <a href="#areas">Áreas</a>
+          <a href="#biblioteca">Biblioteca</a>
           <a href="#metodo">Método</a>
           <a class="nav-action" href="#proyecto"
             >Conocer el proyecto <span aria-hidden="true">↗</span></a
@@ -48,6 +50,7 @@
           <nav aria-label="Navegación móvil">
             <a href="#enfoque">Enfoque</a>
             <a href="#areas">Áreas</a>
+            <a href="#biblioteca">Biblioteca</a>
             <a href="#metodo">Método</a>
             <a href="#proyecto">Conocer el proyecto</a>
           </nav>
@@ -231,6 +234,30 @@
               </div>
               <span class="area-arrow" aria-hidden="true">↗</span>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section catalog-section"
+        id="biblioteca"
+        aria-labelledby="biblioteca-title"
+      >
+        <div class="container">
+          <div class="section-topline">
+            <p class="eyebrow eyebrow-dark">BIBLIOTECA PÚBLICA</p>
+            <span>RECURSOS PARA EXPLORAR Y DESCARGAR</span>
+          </div>
+          <div class="catalog-heading">
+            <h2 id="biblioteca-title">Prompts y skills, con contexto.</h2>
+            <p>
+              Cada recurso publicado incluye una descripción y su archivo
+              original para descargar. La biblioteca crecerá a medida que
+              revisemos y preparemos nuevos materiales.
+            </p>
+          </div>
+          <div id="catalog-list" class="catalog-grid" aria-live="polite">
+            <p class="catalog-message">Cargando recursos…</p>
           </div>
         </div>
       </section>
