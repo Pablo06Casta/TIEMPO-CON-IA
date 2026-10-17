@@ -1,0 +1,34 @@
+{
+  "name": "tiempo-con-ia",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "owner:create": "tsx scripts/create-owner.ts",
+    "backup": "bash scripts/backup.sh",
+    "test": "tsx --test tests/*.test.ts",
+    "smoke": "python tests/smoke.py"
+  },
+  "dependencies": {
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "^4.1.12",
+    "react-markdown": "^10.1.0",
+    "fflate": "^0.8.2",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.9.3",
+    "tsx": "^4.20.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "16.4.2"
+  }
+}
