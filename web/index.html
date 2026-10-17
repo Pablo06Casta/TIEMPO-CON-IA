@@ -249,14 +249,25 @@
             <span>RECURSOS PARA EXPLORAR Y DESCARGAR</span>
           </div>
           <div class="catalog-heading">
-            <h2 id="biblioteca-title">Prompts y skills, con contexto.</h2>
+            <h2 id="biblioteca-title">Recursos claros, fáciles de encontrar.</h2>
             <p>
-              Cada recurso publicado incluye una descripción y su archivo
-              original para descargar. La biblioteca crecerá a medida que
-              revisemos y preparemos nuevos materiales.
+              Explora prompts simples, skills y complementos por separado.
+              Usa las etiquetas para encontrar un tema y descarga el archivo
+              original de cada recurso publicado.
             </p>
           </div>
-          <div id="catalog-list" class="catalog-grid" aria-live="polite">
+          <div class="catalog-categories" aria-label="Filtrar por clase de recurso">
+            <button type="button" class="catalog-category" data-catalog-group="prompt" aria-pressed="false"><span>01 / USO DIRECTO</span><strong>Prompts simples</strong><small>Instrucciones listas para copiar y adaptar.</small><em data-catalog-count="prompt">0 recursos</em></button>
+            <button type="button" class="catalog-category" data-catalog-group="skill" aria-pressed="false"><span>02 / CAPACIDADES</span><strong>Skills</strong><small>Instrucciones y archivos para tareas más completas.</small><em data-catalog-count="skill">0 recursos</em></button>
+            <button type="button" class="catalog-category" data-catalog-group="complemento" aria-pressed="false"><span>03 / APOYO</span><strong>Complementos</strong><small>Agentes, automatizaciones y otros recursos.</small><em data-catalog-count="complemento">0 recursos</em></button>
+          </div>
+          <div class="catalog-toolbar">
+            <label class="catalog-search">Buscar recursos<input id="catalog-search" type="search" placeholder="Título, descripción o tema…" autocomplete="off" /></label>
+            <label class="catalog-tag-filter">Filtrar por etiqueta<select id="catalog-tag"><option value="">Todas las etiquetas</option></select></label>
+            <button type="button" id="catalog-clear" class="catalog-clear" hidden>Limpiar filtros</button>
+          </div>
+          <p id="catalog-results" class="catalog-results" aria-live="polite"></p>
+          <div id="catalog-list" class="catalog-list" aria-live="polite">
             <p class="catalog-message">Cargando recursos…</p>
           </div>
         </div>

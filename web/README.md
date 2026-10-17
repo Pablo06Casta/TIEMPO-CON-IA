@@ -16,10 +16,10 @@ La marca es una instrucción escrita para el agente en un chat que usa este repo
 2. Desde `web/`, ejecuta:
 
    ```bash
-   npm run catalog:add -- --source /ruta/al/archivo.md --kind prompt --title "Nombre del recurso" --description "Qué hace y cuándo usarlo"
+   npm run catalog:add -- --source /ruta/al/archivo.md --kind prompt --title "Nombre del recurso" --description "Qué hace y cuándo usarlo" --tags "redacción,productividad"
    ```
 
-   Los tipos posibles son `prompt`, `skill`, `agente`, `automatizacion` y `otro`. El comando copia el archivo a `web/public/catalog/files/` y añade una ficha a `web/public/catalog/catalog.json`. Si publicas de nuevo el mismo título y tipo, actualiza la ficha. Para cambiar su título sin duplicar la ficha, usa `--id` con el ID ya registrado. Una ficha tiene este aspecto:
+   Los tipos posibles son `prompt` (prompts simples), `skill` y `agente`, `automatizacion` u `otro` (complementos). `--tags` admite etiquetas separadas por comas, hasta 12 etiquetas de 40 caracteres. Si lo omites al actualizar una ficha, se conservan sus etiquetas. El comando copia el archivo a `web/public/catalog/files/` y añade una ficha a `web/public/catalog/catalog.json`. Si publicas de nuevo el mismo título y tipo, actualiza la ficha. Para cambiar su título sin duplicar la ficha, usa `--id` con el ID ya registrado. Una ficha tiene este aspecto:
 
    ```json
    [
@@ -28,6 +28,7 @@ La marca es una instrucción escrita para el agente en un chat que usa este repo
        "kind": "prompt",
        "title": "Nombre público del prompt",
        "description": "Qué hace y cuándo puede resultar útil.",
+      "tags": ["redacción", "productividad"],
        "file": "prompt-nombre-publico-del-prompt.md"
      }
    ]

@@ -21,12 +21,12 @@ function argsOf(argv) {
   for (let i = 0; i < argv.length; i += 2) {
     const key = argv[i];
     if (!key?.startsWith("--") || !argv[i + 1] || argv[i + 1].startsWith("--"))
-      throw new Error("Uso: npm run catalog:add -- --source RUTA --kind TIPO --title TÍTULO --description DESCRIPCIÓN [--id ID]");
+      throw new Error("Uso: npm run catalog:add -- --source RUTA --kind TIPO --title TÍTULO --description DESCRIPCIÓN [--tags etiqueta1,etiqueta2] [--id ID]");
     if (options[key]) throw new Error(`Opción repetida: ${key}`);
     options[key] = argv[i + 1];
   }
   for (const key of Object.keys(options)) {
-    if (!["--source", "--kind", "--title", "--description", "--id"].includes(key))
+    if (!["--source", "--kind", "--title", "--description", "--tags", "--id"].includes(key))
       throw new Error(`Opción desconocida: ${key}`);
   }
   return options;
@@ -58,13 +58,19 @@ const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
 if (!Array.isArray(catalog)) throw new Error("Catálogo inválido");
 const index = catalog.findIndex((resource) => resource.id === id);
 const oldFile = index >= 0 ? catalog[index].file : null;
+const tags = options["--tags"] === undefined
+  ? (index >= 0 ? catalog[index].tags || [] : [])
+  : [...new Map(options["--tags"].split(",").map((tag) => tag.trim().replace(/^#/, ""))
+    .filter(Boolean).map((tag) => [tag.toLocaleLowerCase("es"), tag])).values()];
+if (tags.length > 12 || tags.some((tag) => tag.length > 40 || /[\x00-\x1f\x7f]/.test(tag)))
+  throw new Error("Usa hasta 12 etiquetas de 40 caracteres como máximo");
 const file = `${id}${extension}`;
 if (catalog.some((resource, position) => position !== index && resource.file === file))
   throw new Error(`El archivo público ${file} ya pertenece a otro recurso`);
 if (index < 0 && existsSync(join(filesDir, file)))
   throw new Error(`El archivo público ${file} ya existe sin ficha`);
 
-const entry = { id, kind, title, description, file };
+const entry = { id, kind, title, description, tags, file };
 if (index >= 0) catalog[index] = entry;
 else catalog.push(entry);
 

@@ -22,6 +22,12 @@ for (const [index, resource] of catalog.entries()) {
     if (typeof resource[field] !== "string" || !resource[field].trim())
       throw new Error(`Falta ${field} en recurso ${index + 1}`);
   }
+  if (resource.tags !== undefined) {
+    if (!Array.isArray(resource.tags) || resource.tags.length > 12 ||
+      resource.tags.some((tag) => typeof tag !== "string" || !tag.trim() || tag !== tag.trim() || tag.length > 40 || /[\x00-\x1f\x7f]/.test(tag)) ||
+      new Set(resource.tags.map((tag) => tag.toLocaleLowerCase("es"))).size !== resource.tags.length)
+      throw new Error(`Etiquetas inválidas en recurso ${index + 1}`);
+  }
   if (!/^[A-Za-z0-9][A-Za-z0-9._-]*\.(txt|md|zip)$/.test(resource.file))
     throw new Error(`Nombre de archivo inválido: ${resource.file}`);
   const extension = resource.file.split(".").at(-1);
