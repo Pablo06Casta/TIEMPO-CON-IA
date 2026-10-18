@@ -78,11 +78,11 @@ button { cursor: pointer; }
 .areas-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .area-card { min-height: 350px; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; padding: 20px; border-radius: 21px; color: #fff; isolation: isolate; transition: transform .2s; }
 .area-card:hover { transform: translateY(-4px); }
-.area-card:before { content: ''; position: absolute; z-index: -1; inset: 0; background-image: linear-gradient(0deg, #0c1c24d9, transparent 63%), url('/images/studio-areas.webp'); background-size: 100% 100%, 300% 100%; transition: transform .4s; }
+.area-card:before { content: ''; position: absolute; z-index: -1; inset: 0; background-image: linear-gradient(0deg, #0c1c24df, transparent 68%), var(--area-image); background-size: 100% 100%, cover; background-position: center; transition: transform .4s; }
 .area-card:hover:before { transform: scale(1.05); }
-.area-one:before { background-position: center, left center; }
-.area-two:before { background-position: center, center center; }
-.area-three:before { background-position: center, right center; }
+.area-one { --area-image: url('/images/knowledge-prompts.webp'); }
+.area-two { --area-image: url('/images/assistance-documents.webp'); }
+.area-three { --area-image: url('/images/process-automation.webp'); }
 .area-badge { align-self: flex-start; padding: 7px 10px; border-radius: 50px; background: #fffffff0; color: var(--navy); font-size: 10px; font-weight: 800; letter-spacing: .04em; }
 .area-card h3 { max-width: 290px; margin: 0 0 7px; font-size: clamp(25px, 2.5vw, 34px); letter-spacing: -.06em; line-height: 1.05; }
 .area-card p { max-width: 310px; margin: 0; font-size: 12px; line-height: 1.4; }
