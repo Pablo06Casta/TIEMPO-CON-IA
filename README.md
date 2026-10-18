@@ -4,6 +4,12 @@ Estudio privado para crear y organizar prompts, skills, agentes documentales, au
 
 La [web pública](web/README.md) se construye de forma independiente desde `web/`. Su biblioteca muestra recursos publicados desde GitHub y desde el catálogo público del estudio. Para publicar mediante Codex, adjunta un archivo en un chat con este repositorio y escribe `@TIEMPO-CON-IA-WEB`. No expone los datos privados del estudio.
 
+### Complementos desde el estudio privado
+
+En **Complementos → Nuevo complemento** puedes guardar un borrador con 2–20 skills ya publicadas. **Guardar y publicar** actualiza `web/public/catalog/complements.json` en GitHub; Vercel muestra el complemento cuando despliega el commit. También puedes editarlo, republicarlo o retirarlo de la web.
+
+Para activar el botón de publicación, configura `GITHUB_CONTENTS_TOKEN` **solo en el servidor del estudio**, con un token de acceso específico para `Pablo06Casta/TIEMPO-CON-IA` y permiso **Contents: Read and write**. No pongas el token en el navegador, en el repositorio ni en este chat. El estudio necesita acceso saliente a `api.github.com`, `tiempo-con-ia.vercel.app` y `tiempo-con-ia-catalogo-20261018.pablocastenda.chatgpt.site` para consultar skills públicas y publicar. Si Vercel no responde, usa la copia del catálogo de GitHub incluida en este repositorio. El estudio local de este repositorio es independiente del editor alojado en otro servicio; desplegar este código no modifica automáticamente aquel editor.
+
 La web también permite [crear complementos de skills](web/README.md#complementos-de-skills): los visitantes pueden combinar recursos publicados y archivos propios en un ZIP, y el propietario puede publicar conjuntos preparados para todos.
 
 ## Decisiones técnicas y coste

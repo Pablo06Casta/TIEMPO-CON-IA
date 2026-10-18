@@ -6,6 +6,9 @@ import { z } from 'zod';
 import db, { uploadDir } from '@/lib/db';
 import { currentUser, newSession, tokenHash, verifyPassword } from '@/lib/auth';
 import { inspectSkillZip } from '@/lib/skill-zip';
+import { complementInput } from '@/lib/complements';
+import { publishComplement } from '@/lib/complement-publisher';
+import { listPublishedSkills } from '@/lib/public-skills';
 
 export const runtime = 'nodejs';
 const resourceSchema = z.object({
@@ -27,6 +30,12 @@ const data = async (request: Request) => { try { return await request.json(); } 
 const resource = (id: number) => db.prepare('SELECT * FROM resources WHERE id=?').get(id) as Record<string, unknown> | undefined;
 const project = (id: number) => db.prepare('SELECT * FROM projects WHERE id=?').get(id) as Record<string, unknown> | undefined;
 const safeResource = (row: Record<string, unknown>) => ({ ...row, tags: JSON.parse(String(row.tags)), metadata: JSON.parse(String(row.metadata)) });
+const complement = (complementId: string) => db.prepare('SELECT * FROM complements WHERE id=?').get(complementId) as Record<string, unknown> | undefined;
+const safeComplement = (row: Record<string, unknown>) => ({
+  id: String(row.id), title: String(row.title), description: String(row.description),
+  skillIds: JSON.parse(String(row.skill_ids)) as string[], publishedAt: row.published_at == null ? null : Number(row.published_at),
+  createdAt: Number(row.created_at), updatedAt: Number(row.updated_at)
+});
 const validOrigin = (request: Request) => {
   const origin = request.headers.get('origin');
   if (!origin) return true;
@@ -71,6 +80,55 @@ async function handle(request: NextRequest, context: Context) {
     const response = json({ ok: true });
     response.cookies.delete('tcia_session');
     return response;
+  }
+  if (base === 'complement-skills' && method === 'GET') {
+    try { return json(await listPublishedSkills()); }
+    catch { return bad('No se pudieron cargar las skills publicadas', 503); }
+  }
+  if (base === 'complements') {
+    if (!idText && method === 'GET') return json((db.prepare('SELECT * FROM complements ORDER BY updated_at DESC').all() as Record<string, unknown>[]).map(safeComplement));
+    if (!idText && method === 'POST') {
+      const parsed = complementInput.safeParse(await data(request));
+      if (!parsed.success) return bad('Escribe nombre, descripción y selecciona entre 2 y 20 skills publicadas distintas');
+      const now = Date.now(); const complementId = randomUUID();
+      db.prepare('INSERT INTO complements(id,title,description,skill_ids,created_at,updated_at) VALUES(?,?,?,?,?,?)')
+        .run(complementId, parsed.data.title, parsed.data.description, JSON.stringify(parsed.data.skillIds), now, now);
+      return json(safeComplement(complement(complementId)!), 201);
+    }
+    const row = idText && complement(idText);
+    if (!row) return bad('Complemento no encontrado', 404);
+    if (action === 'publish' && method === 'POST') {
+      const item = safeComplement(row);
+      if (!process.env.GITHUB_CONTENTS_TOKEN) return bad('Falta GITHUB_CONTENTS_TOKEN en el servidor del estudio', 503);
+      try {
+        const catalog = await listPublishedSkills();
+        const available = new Set(catalog.skills.map(skill => skill.id));
+        if (item.skillIds.some(skillId => !available.has(skillId)))
+          return bad(catalog.liveAvailable ? 'Publica primero todas las skills seleccionadas y vuelve a intentarlo' : 'No se pudo comprobar el catálogo externo de skills. Inténtalo más tarde', 503);
+        await publishComplement({ id: item.id, title: item.title, description: item.description, skills: item.skillIds });
+      } catch (error) { return bad((error as Error).message, 503); }
+      db.prepare('UPDATE complements SET published_at=? WHERE id=?').run(Date.now(), idText);
+      return json(safeComplement(complement(idText)!));
+    }
+    if (action === 'unpublish' && method === 'POST') {
+      const item = safeComplement(row);
+      try { await publishComplement({ id: item.id, title: item.title, description: item.description, skills: item.skillIds }, true); }
+      catch (error) { return bad((error as Error).message, 503); }
+      db.prepare('UPDATE complements SET published_at=NULL WHERE id=?').run(idText);
+      return json(safeComplement(complement(idText)!));
+    }
+    if (!action && method === 'PATCH') {
+      const parsed = complementInput.safeParse(await data(request));
+      if (!parsed.success) return bad('Escribe nombre, descripción y selecciona entre 2 y 20 skills publicadas distintas');
+      db.prepare('UPDATE complements SET title=?,description=?,skill_ids=?,updated_at=? WHERE id=?')
+        .run(parsed.data.title, parsed.data.description, JSON.stringify(parsed.data.skillIds), Math.max(Date.now(), Number(row.updated_at) + 1), idText);
+      return json(safeComplement(complement(idText)!));
+    }
+    if (!action && method === 'DELETE') {
+      if (row.published_at != null) return bad('Retira el complemento de la web antes de eliminarlo');
+      db.prepare('DELETE FROM complements WHERE id=?').run(idText);
+      return json({ ok: true });
+    }
   }
   if (base === 'skills' && idText === 'import' && method === 'POST') {
     const form = await request.formData(); const file = form.get('file');

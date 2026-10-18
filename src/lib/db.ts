@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS resource_versions (id INTEGER PRIMARY KEY, resource_i
 CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, title TEXT NOT NULL, objective TEXT NOT NULL DEFAULT '', description TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'active', created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL);
 CREATE TABLE IF NOT EXISTS project_resources (project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE, resource_id INTEGER NOT NULL REFERENCES resources(id) ON DELETE CASCADE, PRIMARY KEY(project_id, resource_id));
 CREATE TABLE IF NOT EXISTS files (id INTEGER PRIMARY KEY, resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE, storage_name TEXT NOT NULL, original_name TEXT NOT NULL, mime TEXT NOT NULL, size INTEGER NOT NULL, category TEXT NOT NULL DEFAULT '', tags TEXT NOT NULL DEFAULT '[]', version INTEGER NOT NULL DEFAULT 1, created_at INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS complements (id TEXT PRIMARY KEY, title TEXT NOT NULL, description TEXT NOT NULL, skill_ids TEXT NOT NULL, published_at INTEGER, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL);
 CREATE INDEX IF NOT EXISTS idx_resources_kind ON resources(kind);
 CREATE INDEX IF NOT EXISTS idx_files_resource ON files(resource_id);
 `);

@@ -41,6 +41,7 @@ with tempfile.TemporaryDirectory(prefix='tcia-smoke-') as data_dir:
         user = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(CookieJar()))
         call(guest,'/api/resources',expected=401)
         call(user,'/api/login','POST',{'email':env['OWNER_EMAIL'],'password':env['OWNER_PASSWORD']})
+        assert b'Complementos' in user.open(BASE+'/studio',timeout=15).read()
         item = call(user,'/api/resources','POST',{'kind':'prompt','title':'Prueba','description':'Inicial','content':'# Uno'},expected=201)
         rid = item['id']
         updated = call(user,f'/api/resources/{rid}','PATCH',{'content':'# Dos'})
@@ -64,11 +65,20 @@ with tempfile.TemporaryDirectory(prefix='tcia-smoke-') as data_dir:
         form,ctype=multipart({},'skill.zip',archive.getvalue(),'application/zip')
         imported=call(user,'/api/skills/import','POST',form,ctype,201)
         assert imported['kind']=='skill' and imported['title']=='Mi skill'
+        call(guest,'/api/complements',expected=401)
+        complement=call(user,'/api/complements','POST',{'title':'Pack de prueba','description':'Dos skills públicas','skillIds':['skill-uno','skill-dos']},expected=201)
+        complement_id=complement['id']
+        assert complement['publishedAt'] is None
+        assert len(call(user,'/api/complements'))==1
+        changed=call(user,f'/api/complements/{complement_id}','PATCH',{'title':'Pack actualizado','description':'Dos skills públicas','skillIds':['skill-uno','skill-dos']})
+        assert changed['title']=='Pack actualizado'
+        call(user,f'/api/complements/{complement_id}/publish','POST',{},expected=503)
+        call(user,f'/api/complements/{complement_id}','DELETE')
         call(user,f'/api/projects/{project["id"]}','DELETE')
         call(user,f'/api/resources/{rid}','DELETE')
         call(user,'/api/logout','POST',{})
         call(user,'/api/resources',expected=401)
-        print('Smoke passed: auth, private access, CRUD, versions, projects, files, skill ZIP, logout')
+        print('Smoke passed: auth, private access, CRUD, versions, projects, files, skill ZIP, complement drafts, logout')
     finally:
         os.killpg(server.pid,signal.SIGTERM)
         server.wait(timeout=10)

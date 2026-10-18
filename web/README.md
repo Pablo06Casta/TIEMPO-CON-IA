@@ -17,6 +17,8 @@ npm run build
 
 El comando añade o actualiza su ficha en `public/catalog/complements.json`. También puedes enviarme las skills y explicar cómo quieres agruparlas en un chat con este repositorio y `@TIEMPO-CON-IA-WEB`. Cada archivo del ZIP está limitado a 20 MB, con un máximo de 20 skills y 80 MB por complemento. La web no requiere cuentas nuevas para crear o descargar complementos.
 
+El estudio privado incluido en la raíz de este repositorio también tiene **Complementos → Nuevo complemento**. Con `GITHUB_CONTENTS_TOKEN` configurado en su servidor, **Guardar y publicar** escribe esta misma ficha en GitHub y activa el despliegue automático de Vercel. El editor privado alojado por separado necesita su propio cambio de código para mostrar esta opción.
+
 El pie de página enlaza a `/legal.html`, con información sobre autoría, propiedad intelectual, privacidad y cookies. Esta versión no configura cookies de analítica o publicidad ni incluye un banner de consentimiento: si se incorporan tecnologías no necesarias, habrá que añadir consentimiento previo y actualizar esa información. Antes de iniciar una actividad económica, habrá que completar los datos de identificación y contacto que resulten exigibles.
 
 ## Publicar un recurso conmigo
