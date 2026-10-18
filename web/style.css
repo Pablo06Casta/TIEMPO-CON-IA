@@ -158,6 +158,7 @@ button { cursor: pointer; }
 .footer .brand-mark { background: #fff; color: var(--navy); }
 .footer .brand-mark span { color: var(--blue); }
 .footer-inner > div:first-child > p { margin: 18px 0 0; color: #bed0dc; font-size: 14px; }
+.footer-inner > div:first-child > .creator-credit { margin-top: 8px; color: #fff; font-size: 12px; font-weight: 700; }
 .footer-links { display: flex; justify-content: flex-end; align-items: start; flex-wrap: wrap; gap: 20px; font-size: 12px; font-weight: 700; }
 .footer-links a:hover { text-decoration: underline; }
 .footer-bottom { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 20px; padding-top: 24px; border-top: 1px solid #ffffff40; color: #b8cad6; font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }

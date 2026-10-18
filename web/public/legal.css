@@ -1,0 +1,52 @@
+:root { --navy: #203248; --ink: #1c2a31; --muted: #62717b; --sky: #c6d6d9; --line: #dfe7e9; color: var(--ink); background: var(--sky); font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; min-width: 320px; }
+a { color: inherit; }
+a:hover { color: #466b8c; }
+:focus-visible { outline: 3px solid #527ca3; outline-offset: 3px; }
+.site-shell { width: min(1280px, calc(100% - 46px)); margin: 28px auto; overflow: hidden; border-radius: 34px; background: #fff; box-shadow: 0 20px 60px #5d777b24; }
+.skip-link { position: fixed; z-index: 50; top: -100px; left: 16px; padding: 12px 18px; background: #fff; }
+.skip-link:focus { top: 16px; }
+.site-header { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-inline: clamp(22px, 5vw, 70px); border-bottom: 1px solid var(--line); }
+.brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); font-size: 19px; font-weight: 900; letter-spacing: -.075em; text-decoration: none; white-space: nowrap; }
+.brand-mark { display: grid; place-items: center; width: 30px; height: 30px; padding-right: 4px; border-radius: 8px; background: var(--navy); color: #fff; font-size: 27px; line-height: 1; letter-spacing: -.12em; }
+.brand-mark span { color: #abc6d8; }
+.back-link { padding: 11px 17px; border-radius: 99px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 800; text-decoration: none; }
+.back-link:hover { background: #3a5878; color: #fff; }
+.back-link span { margin-left: 12px; }
+.page-intro { padding: 92px clamp(22px, 7vw, 100px) 70px; background: #e8eef0; }
+.eyebrow { margin: 0; color: #617d98; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+h1 { max-width: 930px; margin: 20px 0 22px; font-size: clamp(49px, 7vw, 92px); font-weight: 900; line-height: .98; letter-spacing: -.08em; }
+.page-intro > p:not(.eyebrow) { max-width: 650px; margin: 0; color: #50646e; font-size: 18px; line-height: 1.5; }
+.page-intro small { display: block; margin-top: 31px; color: #6b7b83; font-size: 12px; }
+.legal-layout { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: clamp(35px, 7vw, 100px); padding: 78px clamp(22px, 7vw, 100px) 110px; }
+.legal-nav { position: sticky; top: 24px; align-self: start; display: grid; gap: 7px; }
+.legal-nav a { padding: 12px 16px; border-radius: 12px; color: var(--navy); font-size: 13px; font-weight: 800; text-decoration: none; }
+.legal-nav a:hover, .legal-nav a:focus-visible { background: #e8eef0; }
+.legal-content { min-width: 0; }
+.legal-content section { padding-bottom: 55px; border-bottom: 1px solid var(--line); }
+.legal-content section + section { padding-top: 58px; }
+h2 { margin: 15px 0 22px; font-size: clamp(33px, 4vw, 52px); line-height: 1.05; letter-spacing: -.065em; }
+.legal-content p:not(.eyebrow) { max-width: 750px; margin: 0 0 17px; color: #495a63; font-size: 16px; line-height: 1.65; }
+.legal-content p:last-child { margin-bottom: 0; }
+.legal-content a { color: #315c7e; text-decoration-thickness: 1px; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.footer { display: flex; justify-content: space-between; gap: 25px; padding: 29px clamp(22px, 5vw, 70px); background: var(--navy); color: #d5e2e9; font-size: 11px; font-weight: 700; }
+.footer a { color: #fff; }
+@media (max-width: 760px) {
+  .site-shell { width: 100%; margin: 0; border-radius: 0; }
+  .site-header { min-height: 69px; }
+  .brand { font-size: 16px; }
+  .back-link { padding: 10px 12px; font-size: 11px; }
+  .back-link span { display: none; }
+  .page-intro { padding-block: 66px 54px; }
+  .page-intro > p:not(.eyebrow) { font-size: 16px; }
+  .legal-layout { grid-template-columns: 1fr; gap: 40px; padding-block: 45px 70px; }
+  .legal-nav { position: static; display: flex; flex-wrap: wrap; gap: 5px; }
+  .legal-nav a { padding: 9px 12px; background: #f0f3f4; font-size: 11px; }
+  .legal-content section { padding-bottom: 39px; }
+  .legal-content section + section { padding-top: 43px; }
+  .legal-content p:not(.eyebrow) { font-size: 15px; }
+  .footer { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

@@ -2,7 +2,9 @@
 
 Esta carpeta contiene la presentación pública y la interfaz de la biblioteca en Vercel. La página consulta un catálogo público con base de datos; el editor y sus datos privados se alojan por separado. La información sobre funciones futuras se identifica como trabajo en desarrollo.
 
-La web pública ofrece un botón **Crear recurso** que abre el [estudio](https://tiempo-con-ia-vista-20261017-codex.pablocastenda.chatgpt.site/#recursos). Allí el propietario puede crear, editar y borrar prompts, skills y agentes. Los nuevos recursos se guardan en el estudio y se sincronizan con el catálogo público. La página de Vercel consulta el catálogo al cargar, al volver a la pestaña y cada 30 segundos mientras está abierta. El contenido completo de cada recurso es público.
+El editor privado no está enlazado desde la web pública. Los recursos publicados se sincronizan con el catálogo público. La página de Vercel consulta el catálogo al cargar, al volver a la pestaña y cada 30 segundos mientras está abierta. El contenido completo de cada recurso publicado es público.
+
+El pie de página enlaza a `/legal.html`, con información sobre autoría, propiedad intelectual, privacidad y cookies. Esta versión no configura cookies de analítica o publicidad ni incluye un banner de consentimiento: si se incorporan tecnologías no necesarias, habrá que añadir consentimiento previo y actualizar esa información. Antes de iniciar una actividad económica, habrá que completar los datos de identificación y contacto que resulten exigibles.
 
 ## Publicar un recurso conmigo
 
