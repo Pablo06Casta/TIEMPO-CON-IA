@@ -9,14 +9,14 @@ const publicCatalogUrl = "https://tiempo-con-ia-catalogo-20261018.pablocastenda.
 const groups = [
   { id: "prompt", title: "Prompts simples", description: "Instrucciones listas para copiar y adaptar.", kinds: ["prompt"] },
   { id: "skill", title: "Skills", description: "Instrucciones y archivos para tareas más completas.", kinds: ["skill"] },
-  { id: "complemento", title: "Complementos", description: "Agentes, automatizaciones y otros recursos.", kinds: ["agente", "automatizacion", "otro"] },
+  { id: "otros", title: "Otros recursos", description: "Agentes, automatizaciones y otros materiales.", kinds: ["agente", "automatizacion", "otro"] },
 ];
 const labels = {
   prompt: "PROMPT SIMPLE",
   skill: "SKILL",
   agente: "AGENTE",
   automatizacion: "AUTOMATIZACIÓN",
-  otro: "COMPLEMENTO",
+  otro: "RECURSO",
 };
 
 let resources = [];

@@ -48,3 +48,27 @@ for (const [index, resource] of catalog.entries()) {
 }
 
 console.log(`Catálogo válido: ${catalog.length} recursos`);
+
+const complements = JSON.parse(
+  readFileSync(new URL("../public/catalog/complements.json", import.meta.url), "utf8"),
+);
+if (!Array.isArray(complements)) throw new Error("Los complementos deben ser una lista");
+const complementIds = new Set();
+for (const [index, complement] of complements.entries()) {
+  if (!complement || typeof complement.id !== "string" || !/^[a-z0-9][a-z0-9-]*$/.test(complement.id))
+    throw new Error(`ID inválido en complemento ${index + 1}`);
+  if (complementIds.has(complement.id)) throw new Error(`Complemento duplicado: ${complement.id}`);
+  complementIds.add(complement.id);
+  for (const field of ["title", "description"]) {
+    if (typeof complement[field] !== "string" || !complement[field].trim())
+      throw new Error(`Falta ${field} en complemento ${index + 1}`);
+  }
+  if (!Array.isArray(complement.skills) || complement.skills.length < 2 || new Set(complement.skills).size !== complement.skills.length)
+    throw new Error(`Un complemento necesita al menos dos skills distintas: ${complement.id}`);
+  for (const skillId of complement.skills) {
+    if (!catalog.some((resource) => resource.id === skillId && resource.kind === "skill") &&
+        !/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(skillId))
+      throw new Error(`Skill inválida en ${complement.id}: ${skillId}`);
+  }
+}
+console.log(`Complementos válidos: ${complements.length}`);

@@ -133,6 +133,42 @@ button { cursor: pointer; }
 .catalog-content pre { max-height: 320px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-family: inherit; font-size: 13px; font-weight: 400; line-height: 1.5; }
 .catalog-download:hover { text-decoration: underline; }
 .catalog-message { grid-column: 1 / -1; margin: 0; padding: 26px; border-radius: 15px; background: #f2f5f7; color: var(--muted); font-size: 13px; }
+.inline-link { text-decoration: underline; text-underline-offset: 3px; font-weight: 800; }
+.complements { margin-top: 90px; padding-top: 78px; border-top: 1px solid var(--line); scroll-margin-top: 40px; }
+.complements .section-heading h2 { max-width: 650px; }
+.complement-card-names { margin: 0 0 10px; color: #526575; font-size: 12px; line-height: 1.5; }
+.complement-card-actions { display: flex; flex-wrap: wrap; gap: 17px; margin-top: auto; }
+.complement-card-actions button { border: 0; background: none; padding: 0; font-size: 12px; font-weight: 800; color: var(--navy); }
+.complement-card-actions button:hover { text-decoration: underline; }
+.complement-builder { margin-top: 28px; padding: 32px; border-radius: 22px; background: #e9eff2; scroll-margin-top: 40px; }
+.complement-builder-heading { display: flex; justify-content: space-between; align-items: start; gap: 25px; margin-bottom: 27px; }
+.complement-builder-heading h3 { margin: 12px 0 7px; font-size: 31px; letter-spacing: -.06em; }
+.complement-builder-heading p:last-child { margin: 0; color: var(--muted); font-size: 13px; }
+.complement-count { flex: none; padding: 9px 13px; border-radius: 99px; background: #d7e5ed; color: var(--navy); font-size: 11px; font-weight: 800; }
+.complement-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.complement-fields label, .complement-upload { display: grid; gap: 8px; color: var(--navy); font-size: 12px; font-weight: 800; }
+.complement-fields input, .complement-upload input { width: 100%; min-height: 45px; padding: 10px 13px; border: 1px solid #cfdbdf; border-radius: 11px; background: #fff; color: var(--ink); font-size: 13px; font-weight: 400; }
+.complement-upload input { padding: 8px 12px; }
+.complement-upload small { color: var(--muted); font-size: 11px; font-weight: 400; line-height: 1.5; }
+.complement-skill-picker { margin: 25px 0; padding: 0; border: 0; }
+.complement-skill-picker legend { margin-bottom: 12px; padding: 0; color: var(--navy); font-size: 12px; font-weight: 800; }
+.complement-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.complement-option { display: flex; align-items: start; gap: 11px; min-width: 0; padding: 14px; border: 1px solid #d3dfe3; border-radius: 11px; background: #fff; cursor: pointer; }
+.complement-option:has(input:checked) { border-color: #7295ad; background: #f4f9fc; }
+.complement-option input { margin-top: 3px; accent-color: #476f92; }
+.complement-option strong, .complement-option small { display: block; }
+.complement-option strong { font-size: 13px; }
+.complement-option small { margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+.complement-options .catalog-message { padding: 16px; background: #fff; }
+.complement-local-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.complement-local-list li { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: 9px; background: #d8e5eb; color: var(--navy); font-size: 11px; }
+.complement-local-list button { border: 0; background: none; color: #9a3838; font-size: 11px; font-weight: 800; }
+.complement-actions { display: flex; align-items: center; gap: 18px; margin-top: 25px; }
+.button-dark { background: var(--navy); color: #fff; }
+.button-dark:hover { background: #385a77; }
+.button-dark:disabled { opacity: .55; cursor: wait; }
+.complement-actions p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.complement-actions p[data-error="true"] { color: #9a3838; }
 
 .method-section { display: grid; grid-template-columns: .85fr 1.15fr; gap: 18px; padding-top: 0; }
 .method-intro { min-height: 330px; display: flex; flex-direction: column; align-items: flex-start; padding: 33px; border-radius: 22px; background: var(--blue); color: #fff; }
@@ -198,6 +234,8 @@ button { cursor: pointer; }
   .area-card { min-height: 350px; padding: 22px; }
   .area-card h3 { font-size: 30px; }
   .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .complement-fields, .complement-options { grid-template-columns: 1fr; }
+  .complement-builder-heading, .complement-actions { flex-direction: column; align-items: flex-start; }
   .method-section { grid-template-columns: 1fr; padding-top: 0; }
   .method-intro { min-height: 265px; }
   .project-section { grid-template-columns: 1fr; gap: 36px; padding: 40px; }
@@ -226,6 +264,8 @@ button { cursor: pointer; }
   .principles h3 { font-size: 17px; }
   .areas-section { padding: 30px 16px; }
   .catalog-categories, .catalog-grid { grid-template-columns: 1fr; }
+  .complements { margin-top: 65px; padding-top: 55px; }
+  .complement-builder { padding: 23px; }
   .area-card { min-height: 370px; padding: 19px; }
   .area-card h3 { font-size: 30px; }
   .area-badge { font-size: 10px; }

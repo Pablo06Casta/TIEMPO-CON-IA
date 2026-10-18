@@ -12,6 +12,7 @@
     <link rel="preload" as="image" href="/images/studio-hero.webp" />
     <link rel="stylesheet" href="/style.css" />
     <script type="module" src="/catalog.js"></script>
+    <script type="module" src="/complements.js"></script>
     <title>TIEMPO CON IA · Ideas que devuelven tiempo</title>
   </head>
   <body>
@@ -30,7 +31,7 @@
           <details class="mobile-nav">
             <summary>Menú <span aria-hidden="true">☰</span></summary>
             <nav aria-label="Navegación móvil">
-              <a href="#enfoque">Enfoque</a><a href="#areas">Áreas</a><a href="#biblioteca">Biblioteca</a><a href="#metodo">Método</a><a href="#proyecto">El proyecto</a>
+              <a href="#enfoque">Enfoque</a><a href="#areas">Áreas</a><a href="#biblioteca">Biblioteca</a><a href="#complementos">Complementos</a><a href="#metodo">Método</a><a href="#proyecto">El proyecto</a>
             </nav>
           </details>
         </div>
@@ -76,15 +77,33 @@
         </section>
 
         <section class="catalog-section section container" id="biblioteca" aria-labelledby="biblioteca-title">
-          <div class="section-heading"><div><p class="eyebrow">03 / BIBLIOTECA PÚBLICA</p><h2 id="biblioteca-title">Recursos para explorar a tu ritmo.</h2></div><p>Explora prompts, skills y complementos. Busca por tema y entra en cada recurso para leer sus instrucciones, copiarlas y descargar sus archivos.</p></div>
+          <div class="section-heading"><div><p class="eyebrow">03 / BIBLIOTECA PÚBLICA</p><h2 id="biblioteca-title">Recursos para explorar a tu ritmo.</h2></div><p>Explora prompts y skills. Busca por tema, lee sus instrucciones y descarga sus archivos. También puedes <a class="inline-link" href="#complementos">crear un complemento con varias skills</a>.</p></div>
           <div class="catalog-categories" aria-label="Filtrar por clase de recurso">
             <button type="button" class="catalog-category" data-catalog-group="prompt" aria-pressed="false"><span class="category-icon" aria-hidden="true">✎</span><span class="category-index">01 / USO DIRECTO</span><strong>Prompts simples</strong><small>Instrucciones listas para copiar y adaptar.</small><em data-catalog-count="prompt">0 recursos</em></button>
             <button type="button" class="catalog-category" data-catalog-group="skill" aria-pressed="false"><span class="category-icon" aria-hidden="true">✳</span><span class="category-index">02 / CAPACIDADES</span><strong>Skills</strong><small>Instrucciones y archivos para tareas más completas.</small><em data-catalog-count="skill">0 recursos</em></button>
-            <button type="button" class="catalog-category" data-catalog-group="complemento" aria-pressed="false"><span class="category-icon" aria-hidden="true">↗</span><span class="category-index">03 / APOYO</span><strong>Complementos</strong><small>Agentes, automatizaciones y otros recursos.</small><em data-catalog-count="complemento">0 recursos</em></button>
+            <button type="button" class="catalog-category" data-catalog-group="otros" aria-pressed="false"><span class="category-icon" aria-hidden="true">↗</span><span class="category-index">03 / APOYO</span><strong>Otros recursos</strong><small>Agentes, automatizaciones y otros materiales.</small><em data-catalog-count="otros">0 recursos</em></button>
           </div>
           <div class="catalog-toolbar"><label>Buscar recursos<input id="catalog-search" type="search" placeholder="Título, descripción o tema…" autocomplete="off" /></label><label>Filtrar por etiqueta<select id="catalog-tag"><option value="">Todas las etiquetas</option></select></label><button type="button" id="catalog-clear" class="catalog-clear" hidden>Limpiar filtros</button></div>
           <p id="catalog-results" class="catalog-results" aria-live="polite"></p>
           <div id="catalog-list" class="catalog-list" aria-live="polite"><p class="catalog-message">Cargando recursos…</p></div>
+          <div class="complements" id="complementos">
+            <div class="section-heading">
+              <div><p class="eyebrow">COMPLEMENTOS DE SKILLS</p><h2>Varias skills, una solución.</h2></div>
+              <p>Descarga un conjunto preparado o configura el tuyo. Elige al menos dos skills y recibirás todos sus archivos en un ZIP.</p>
+            </div>
+            <div id="complement-list" class="catalog-grid" aria-live="polite"><p class="catalog-message">Cargando complementos…</p></div>
+            <form id="complement-builder" class="complement-builder">
+              <div class="complement-builder-heading"><div><p class="eyebrow">CONFIGURA EL TUYO</p><h3>Crea un complemento</h3><p>Combina skills publicadas y, si quieres, archivos propios.</p></div><span id="complement-count" class="complement-count">0 skills seleccionadas</span></div>
+              <div class="complement-fields">
+                <label for="complement-title">Nombre del complemento<input id="complement-title" name="title" type="text" maxlength="80" placeholder="Ej. Asistente de contenidos" required /></label>
+                <label for="complement-description">Descripción breve<input id="complement-description" name="description" type="text" maxlength="240" placeholder="Para qué sirven estas skills juntas" /></label>
+              </div>
+              <fieldset class="complement-skill-picker"><legend>Skills publicadas</legend><div id="complement-skill-list" class="complement-options"><p class="catalog-message">Cargando skills…</p></div></fieldset>
+              <label class="complement-upload" for="complement-files">Añadir skills propias (.md, .txt o .zip)<input id="complement-files" type="file" accept=".md,.txt,.zip" multiple /><small>Los archivos propios se procesan en tu navegador y no se publican. Máximo 20 MB por archivo.</small></label>
+              <ul id="complement-local-list" class="complement-local-list" aria-live="polite"></ul>
+              <div class="complement-actions"><button class="button button-dark" type="submit">Crear y descargar ZIP <span aria-hidden="true">↓</span></button><p id="complement-status" role="status" aria-live="polite">El ZIP incluirá los archivos originales y una guía de contenido.</p></div>
+            </form>
+          </div>
         </section>
 
         <section class="method-section section container" id="metodo" aria-labelledby="metodo-title"><div class="method-intro"><p class="eyebrow">04 / EL MÉTODO</p><h2 id="metodo-title">De la posibilidad a una solución clara.</h2><p>Una buena idea gana valor cuando se puede probar, revisar y explicar con honestidad.</p></div><ol class="method-list"><li><span>01</span><h3>Definir</h3><p>Entender el objetivo, las personas y la información disponible.</p></li><li><span>02</span><h3>Construir</h3><p>Dar forma a la solución y documentar cómo debe utilizarse.</p></li><li><span>03</span><h3>Evaluar</h3><p>Revisar el resultado, sus posibles beneficios y sus límites.</p></li></ol></section>
@@ -92,7 +111,7 @@
         <section class="project-section section container" id="proyecto" aria-labelledby="proyecto-title"><div class="project-copy"><p class="eyebrow">05 / EL PROYECTO</p><h2 id="proyecto-title">Estamos construyendo el siguiente paso.</h2><p>TIEMPO CON IA comienza como un estudio privado para crear y organizar recursos. El showroom público y las demostraciones interactivas se incorporarán a medida que estén preparados y validados.</p><a class="text-link" href="#biblioteca">Explorar la biblioteca <span aria-hidden="true">↗</span></a></div><div class="project-art" aria-hidden="true"><span class="project-orbit"></span><span class="project-monogram">T<span>·</span>IA</span><small>EN CONSTRUCCIÓN<br />CON CALMA Y CRITERIO</small></div></section>
       </main>
 
-      <footer class="footer"><div class="container footer-inner"><div><a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">t<span>·</span></span><span>TIEMPO CON IA</span></a><p>Ideas que devuelven tiempo.</p><p class="creator-credit">Creado por Pablo.</p></div><div class="footer-links"><a href="#enfoque">Enfoque</a><a href="#areas">Áreas</a><a href="#biblioteca">Biblioteca</a><a href="#proyecto">El proyecto</a><a href="/legal.html#autor">Autoría y uso</a><a href="/legal.html#privacidad">Privacidad</a><a href="/legal.html#cookies">Cookies</a></div><div class="footer-bottom"><span>© 2026 Pablo · TIEMPO CON IA</span><span>Estudio de soluciones · Presentación inicial</span></div></div></footer>
+      <footer class="footer"><div class="container footer-inner"><div><a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">t<span>·</span></span><span>TIEMPO CON IA</span></a><p>Ideas que devuelven tiempo.</p><p class="creator-credit">Creado por Pablo.</p></div><div class="footer-links"><a href="#enfoque">Enfoque</a><a href="#areas">Áreas</a><a href="#biblioteca">Biblioteca</a><a href="#complementos">Complementos</a><a href="#proyecto">El proyecto</a><a href="/legal.html#autor">Autoría y uso</a><a href="/legal.html#privacidad">Privacidad</a><a href="/legal.html#cookies">Cookies</a></div><div class="footer-bottom"><span>© 2026 Pablo · TIEMPO CON IA</span><span>Estudio de soluciones · Presentación inicial</span></div></div></footer>
     </div>
   </body>
 </html>

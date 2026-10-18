@@ -4,6 +4,19 @@ Esta carpeta contiene la presentación pública y la interfaz de la biblioteca e
 
 El editor privado no está enlazado desde la web pública. Los recursos publicados se sincronizan con el catálogo público. La página de Vercel consulta el catálogo al cargar, al volver a la pestaña y cada 30 segundos mientras está abierta. El contenido completo de cada recurso publicado es público. Cada ficha abre una página propia con descripción, instrucciones copiables y archivos descargables.
 
+## Complementos de skills
+
+En [Complementos](https://tiempo-con-ia.vercel.app/#complementos), cualquier visitante puede seleccionar dos o más skills publicadas desde GitHub o desde el estudio, añadir archivos propios `.md`, `.txt` o `.zip`, y descargar el conjunto como un ZIP. Incluye `complemento.json`, `LEEME.txt` y una carpeta por skill con su contenido y adjuntos. Si una skill original es un ZIP, se conserva dentro del conjunto. Los archivos propios se procesan en el navegador y no se publican. El complemento creado por un visitante tampoco se añade al catálogo público.
+
+Para publicar un complemento preparado para todos, usa los IDs de al menos dos skills ya publicadas. En el caso de una skill del estudio, el ID aparece en el enlace de su página `/recurso.html?id=...`. Desde `web/` ejecuta:
+
+```bash
+npm run complements:add -- --title "Mi complemento" --description "Qué resuelve" --skills skill-uno,skill-dos
+npm run build
+```
+
+El comando añade o actualiza su ficha en `public/catalog/complements.json`. También puedes enviarme las skills y explicar cómo quieres agruparlas en un chat con este repositorio y `@TIEMPO-CON-IA-WEB`. Cada archivo del ZIP está limitado a 20 MB, con un máximo de 20 skills y 80 MB por complemento. La web no requiere cuentas nuevas para crear o descargar complementos.
+
 El pie de página enlaza a `/legal.html`, con información sobre autoría, propiedad intelectual, privacidad y cookies. Esta versión no configura cookies de analítica o publicidad ni incluye un banner de consentimiento: si se incorporan tecnologías no necesarias, habrá que añadir consentimiento previo y actualizar esa información. Antes de iniciar una actividad económica, habrá que completar los datos de identificación y contacto que resulten exigibles.
 
 ## Publicar un recurso conmigo
@@ -23,7 +36,7 @@ La marca es una instrucción escrita para el agente en un chat que usa este repo
    npm run catalog:add -- --source /ruta/al/archivo.md --kind prompt --title "Nombre del recurso" --description "Qué hace y cuándo usarlo" --tags "redacción,productividad"
    ```
 
-   Los tipos posibles son `prompt` (prompts simples), `skill` y `agente`, `automatizacion` u `otro` (complementos). `--tags` admite etiquetas separadas por comas, hasta 12 etiquetas de 40 caracteres. Si lo omites al actualizar una ficha, se conservan sus etiquetas. El comando copia el archivo a `web/public/catalog/files/` y añade una ficha a `web/public/catalog/catalog.json`. Si publicas de nuevo el mismo título y tipo, actualiza la ficha. Para cambiar su título sin duplicar la ficha, usa `--id` con el ID ya registrado. Una ficha tiene este aspecto:
+   Los tipos posibles son `prompt` (prompts simples), `skill` y `agente`, `automatizacion` u `otro` (otros recursos). Los complementos de skills se crean por separado con `complements:add`. `--tags` admite etiquetas separadas por comas, hasta 12 etiquetas de 40 caracteres. Si lo omites al actualizar una ficha, se conservan sus etiquetas. El comando copia el archivo a `web/public/catalog/files/` y añade una ficha a `web/public/catalog/catalog.json`. Si publicas de nuevo el mismo título y tipo, actualiza la ficha. Para cambiar su título sin duplicar la ficha, usa `--id` con el ID ya registrado. Una ficha tiene este aspecto:
 
    ```json
    [

@@ -2,7 +2,9 @@
 
 Estudio privado para crear y organizar prompts, skills, agentes documentales, automatizaciones y proyectos. Esta entrega es una aplicación local de una sola instancia. No publica recursos ni llama a modelos de pago.
 
-La [web pública](web/README.md) se construye de forma independiente desde `web/`. Incluye una biblioteca de recursos descargables añadidos a GitHub. Para publicar mediante Codex, adjunta un archivo en un chat con este repositorio y escribe `@TIEMPO-CON-IA-WEB`. No contiene los datos del estudio privado.
+La [web pública](web/README.md) se construye de forma independiente desde `web/`. Su biblioteca muestra recursos publicados desde GitHub y desde el catálogo público del estudio. Para publicar mediante Codex, adjunta un archivo en un chat con este repositorio y escribe `@TIEMPO-CON-IA-WEB`. No expone los datos privados del estudio.
+
+La web también permite [crear complementos de skills](web/README.md#complementos-de-skills): los visitantes pueden combinar recursos publicados y archivos propios en un ZIP, y el propietario puede publicar conjuntos preparados para todos.
 
 ## Decisiones técnicas y coste
 
