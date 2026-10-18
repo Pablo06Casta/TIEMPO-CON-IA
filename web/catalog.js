@@ -84,7 +84,21 @@ function card(resource) {
         content.textContent = "No se pudo cargar el contenido. Inténtalo de nuevo.";
       }
     });
-    article.append(top, title, description, tags, details);
+    const downloads = document.createElement("div");
+    downloads.className = "catalog-files";
+    const instructions = document.createElement("a");
+    instructions.className = "catalog-download";
+    instructions.href = `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/instrucciones.txt`;
+    instructions.textContent = "Descargar instrucciones (.txt) ↓";
+    downloads.append(instructions);
+    for (const file of resource.files || []) {
+      const link = document.createElement("a");
+      link.className = "catalog-download";
+      link.href = `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/files/${encodeURIComponent(file.id)}`;
+      link.textContent = `Descargar ${file.name} ↓`;
+      downloads.append(link);
+    }
+    article.append(top, title, description, tags, details, downloads);
   } else {
     const download = document.createElement("a");
     download.className = "catalog-download";

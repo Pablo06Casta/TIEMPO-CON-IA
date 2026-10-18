@@ -249,3 +249,5 @@ button { cursor: pointer; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
 }
+
+.catalog-files{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.catalog-files .catalog-download{overflow-wrap:anywhere}
