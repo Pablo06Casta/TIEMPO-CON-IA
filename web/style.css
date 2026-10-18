@@ -77,16 +77,19 @@ button { cursor: pointer; }
 .section-heading h2 { max-width: 670px; }
 .section-heading > p { max-width: 330px; margin: 0 0 3px; color: var(--muted); font-size: 15px; line-height: 1.45; }
 .areas-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.area-card { min-height: 350px; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; padding: 20px; border-radius: 21px; color: #fff; isolation: isolate; transition: transform .2s; }
+.area-card { min-height: 455px; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; padding: 22px; border-radius: 21px; color: #fff; isolation: isolate; transition: transform .2s; }
 .area-card:hover { transform: translateY(-4px); }
-.area-card:before { content: ''; position: absolute; z-index: -1; inset: 0; background-image: linear-gradient(0deg, #0c1c24df, transparent 68%), var(--area-image); background-size: 100% 100%, cover; background-position: center; transition: transform .4s; }
+.area-card:before { content: ''; position: absolute; z-index: -1; inset: 0; background-image: linear-gradient(0deg, #0c1c24f5, #0c1c24bf 31%, transparent 78%), var(--area-image); background-size: 100% 100%, cover; background-position: center; transition: transform .4s; }
 .area-card:hover:before { transform: scale(1.05); }
 .area-one { --area-image: url('/images/knowledge-prompts.webp'); }
 .area-two { --area-image: url('/images/assistance-documents.webp'); }
 .area-three { --area-image: url('/images/process-automation.webp'); }
 .area-badge { align-self: flex-start; padding: 7px 10px; border-radius: 50px; background: #fffffff0; color: var(--navy); font-size: 10px; font-weight: 800; letter-spacing: .04em; }
 .area-card h3 { max-width: 290px; margin: 0 0 7px; font-size: clamp(25px, 2.5vw, 34px); letter-spacing: -.06em; line-height: 1.05; }
-.area-card p { max-width: 310px; margin: 0; font-size: 12px; line-height: 1.4; }
+.area-card-copy { max-width: 330px; }
+.area-card p { margin: 0; font-size: 13px; line-height: 1.42; }
+.area-card .area-example { margin-top: 14px; padding-top: 12px; border-top: 1px solid #ffffff80; }
+.area-example span { display: block; margin-bottom: 5px; font-size: 10px; font-weight: 800; letter-spacing: .09em; }
 .text-link { display: inline-flex; align-items: center; gap: 12px; padding-bottom: 5px; border-bottom: 1px solid currentColor; color: var(--navy); font-size: 12px; font-weight: 800; }
 .text-link:hover { color: #55799c; }
 .areas-section > .text-link { margin-top: 28px; }
@@ -191,10 +194,9 @@ button { cursor: pointer; }
   .areas-section { padding: 38px 25px; }
   .section-heading { display: block; }
   .section-heading > p { max-width: 540px; margin-top: 15px; }
-  .areas-grid { gap: 10px; }
-  .area-card { min-height: 290px; padding: 13px; }
-  .area-card h3 { font-size: 25px; }
-  .area-badge { font-size: 8px; }
+  .areas-grid { grid-template-columns: 1fr; gap: 12px; }
+  .area-card { min-height: 350px; padding: 22px; }
+  .area-card h3 { font-size: 30px; }
   .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .method-section { grid-template-columns: 1fr; padding-top: 0; }
   .method-intro { min-height: 265px; }
@@ -223,8 +225,8 @@ button { cursor: pointer; }
   .principle-icon { width: 58px; height: 58px; font-size: 32px; }
   .principles h3 { font-size: 17px; }
   .areas-section { padding: 30px 16px; }
-  .areas-grid, .catalog-categories, .catalog-grid { grid-template-columns: 1fr; }
-  .area-card { min-height: 315px; padding: 19px; }
+  .catalog-categories, .catalog-grid { grid-template-columns: 1fr; }
+  .area-card { min-height: 370px; padding: 19px; }
   .area-card h3 { font-size: 30px; }
   .area-badge { font-size: 10px; }
   .catalog-categories { margin-top: 28px; gap: 9px; }
