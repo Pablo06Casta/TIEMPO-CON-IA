@@ -871,6 +871,9 @@ select:focus-visible {
 .catalog-download:hover {
   text-decoration: underline;
 }
+.catalog-content { margin-top: auto; border-top: 1px solid #e5efec; padding-top: 15px; }
+.catalog-content summary { width: fit-content; color: #1e7377; font-size: 12px; font-weight: 800; cursor: pointer; }
+.catalog-content pre { max-height: 320px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: #334c59; background: #f6faf9; padding: 16px; border-radius: 8px; font: 12px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; }
 .catalog-message {
   grid-column: 1 / -1;
   margin: 0;

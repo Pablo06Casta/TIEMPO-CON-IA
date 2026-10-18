@@ -4,6 +4,7 @@ const tagSelect = document.querySelector("#catalog-tag");
 const clearButton = document.querySelector("#catalog-clear");
 const resultCount = document.querySelector("#catalog-results");
 const groupButtons = [...document.querySelectorAll("[data-catalog-group]")];
+const publicCatalogUrl = "https://tiempo-con-ia-catalogo-20261018.pablocastenda.chatgpt.site/api/resources";
 
 const groups = [
   { id: "prompt", title: "Prompts simples", description: "Instrucciones listas para copiar y adaptar.", kinds: ["prompt"] },
@@ -43,7 +44,7 @@ function card(resource) {
   kind.textContent = labels[resource.kind] || labels.otro;
   const extension = document.createElement("span");
   extension.className = "catalog-extension";
-  extension.textContent = resource.file.split(".").at(-1).toUpperCase();
+  extension.textContent = resource.source === "live" ? "PUBLICADO" : resource.file.split(".").at(-1).toUpperCase();
   top.append(kind, extension);
 
   const title = document.createElement("h3");
@@ -63,13 +64,35 @@ function card(resource) {
     });
     tags.append(button);
   }
-  const download = document.createElement("a");
-  download.className = "catalog-download";
-  download.href = `/catalog/files/${encodeURIComponent(resource.file)}`;
-  download.download = resource.file;
-  download.textContent = "Descargar archivo ↗";
-
-  article.append(top, title, description, tags, download);
+  if (resource.source === "live") {
+    const details = document.createElement("details");
+    details.className = "catalog-content";
+    const summary = document.createElement("summary");
+    summary.textContent = "Ver contenido";
+    const content = document.createElement("pre");
+    content.textContent = "Cargando…";
+    details.append(summary, content);
+    details.addEventListener("toggle", async () => {
+      if (!details.open || details.dataset.loaded) return;
+      try {
+        const response = await fetch(`${publicCatalogUrl}/${encodeURIComponent(resource.id)}`, { cache: "no-store" });
+        if (!response.ok) throw new Error("No se pudo cargar el recurso.");
+        const body = await response.json();
+        content.textContent = body.resource.content || "Este recurso no tiene instrucciones todavía.";
+        details.dataset.loaded = "true";
+      } catch {
+        content.textContent = "No se pudo cargar el contenido. Inténtalo de nuevo.";
+      }
+    });
+    article.append(top, title, description, tags, details);
+  } else {
+    const download = document.createElement("a");
+    download.className = "catalog-download";
+    download.href = `/catalog/files/${encodeURIComponent(resource.file)}`;
+    download.download = resource.file;
+    download.textContent = "Descargar archivo ↗";
+    article.append(top, title, description, tags, download);
+  }
   return article;
 }
 
@@ -136,20 +159,38 @@ clearButton.addEventListener("click", () => {
   render();
 });
 
-try {
-  const response = await fetch("/catalog/catalog.json");
-  if (!response.ok) throw new Error("No se pudo cargar el catálogo");
-  resources = await response.json();
-  if (!Array.isArray(resources)) throw new Error("Catálogo inválido");
+async function refreshCatalog() {
+  const [staticResult, liveResult] = await Promise.allSettled([
+    fetch("/catalog/catalog.json", { cache: "no-store" }).then(async response => {
+      if (!response.ok) throw new Error("Catálogo no disponible");
+      return response.json();
+    }),
+    fetch(publicCatalogUrl, { cache: "no-store" }).then(async response => {
+      if (!response.ok) throw new Error("Catálogo no disponible");
+      return (await response.json()).resources;
+    })
+  ]);
+  const staticResources = staticResult.status === "fulfilled" && Array.isArray(staticResult.value) ? staticResult.value : [];
+  const liveResources = liveResult.status === "fulfilled" && Array.isArray(liveResult.value) ? liveResult.value.map(resource => ({
+    ...resource, kind: resource.kind === "agent" ? "agente" : resource.kind, source: "live"
+  })) : [];
+  if (staticResult.status === "rejected" && liveResult.status === "rejected") throw new Error("Catálogo no disponible");
+  resources = [...liveResources, ...staticResources];
+  const selectedTag = tagSelect.value;
+  tagSelect.replaceChildren(new Option("Todas las etiquetas", ""));
   const tags = [...new Map(resources.flatMap((resource) => resource.tags || [])
     .map((tag) => [tag.toLocaleLowerCase("es"), tag])).values()].sort((a, b) => a.localeCompare(b, "es"));
   tagSelect.append(...tags.map((tag) => new Option(`#${tag}`, tag)));
+  tagSelect.value = tags.includes(selectedTag) ? selectedTag : "";
   for (const group of groups) {
     const count = resources.filter((resource) => groupOf(resource)?.id === group.id).length;
     document.querySelector(`[data-catalog-count="${group.id}"]`).textContent = `${count} ${count === 1 ? "recurso" : "recursos"}`;
   }
   render();
-} catch {
+}
+refreshCatalog().catch(() => {
   resultCount.textContent = "";
   message("La biblioteca no está disponible ahora. Inténtalo más tarde.");
-}
+});
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshCatalog().catch(() => {}); });
+setInterval(() => { if (!document.hidden) refreshCatalog().catch(() => {}); }, 30000);

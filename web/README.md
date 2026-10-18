@@ -1,8 +1,8 @@
 # Web pública · TIEMPO CON IA
 
-Esta carpeta contiene una presentación y una biblioteca pública estáticas. No tienen base de datos, inicio de sesión ni acceso a los archivos del estudio privado. La información sobre funciones futuras se identifica como trabajo en desarrollo.
+Esta carpeta contiene la presentación pública y la interfaz de la biblioteca en Vercel. La página consulta un catálogo público con base de datos; el editor y sus datos privados se alojan por separado. La información sobre funciones futuras se identifica como trabajo en desarrollo.
 
-La web pública ofrece un botón **Crear recurso** que abre el [estudio privado](https://tiempo-con-ia-vista-20261017-codex.pablocastenda.chatgpt.site/#recursos). Allí el propietario puede crear, editar y borrar prompts, skills y agentes; los datos se guardan en una base de datos del estudio y permanecen privados. Los recursos del estudio no aparecen automáticamente en el catálogo público de Vercel.
+La web pública ofrece un botón **Crear recurso** que abre el [estudio](https://tiempo-con-ia-vista-20261017-codex.pablocastenda.chatgpt.site/#recursos). Allí el propietario puede crear, editar y borrar prompts, skills y agentes. Los nuevos recursos se guardan en el estudio y se sincronizan con el catálogo público. La página de Vercel consulta el catálogo al cargar, al volver a la pestaña y cada 30 segundos mientras está abierta. El contenido completo de cada recurso es público.
 
 ## Publicar un recurso conmigo
 
@@ -41,7 +41,7 @@ La marca es una instrucción escrita para el agente en un chat que usa este repo
 
 Puedes enviarme aquí el primer `.txt`, `.md` o `.zip` con `@TIEMPO-CON-IA-WEB` para publicarlo.
 
-El **estudio privado** es otra aplicación: allí puedes crear un recurso desde **Biblioteca → Nuevo recurso** o importar una skill ZIP desde **Biblioteca → Importar skill**. Sus datos viven en SQLite en la instalación del estudio; crear algo allí no lo publica en esta web automáticamente.
+El **estudio** enlazado desde la web es otra aplicación: allí puedes crear un recurso desde **Biblioteca → Nuevo recurso**. Guardarlo publica su título, descripción, etiquetas y contenido en el catálogo que consulta Vercel. El proyecto local de fase 1 que vive fuera de `web/` sigue siendo una instalación independiente.
 
 ## Revisar en local
 
@@ -57,7 +57,7 @@ Para generar la versión que se publicará:
 npm run build
 ```
 
-Vite crea `web/dist/`. No hay variables de entorno ni servicios externos.
+Vite crea `web/dist/`. La biblioteca consulta el catálogo público de TIEMPO CON IA.
 
 ## Publicar con GitHub y Vercel
 
