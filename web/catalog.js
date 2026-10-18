@@ -64,49 +64,14 @@ function card(resource) {
     });
     tags.append(button);
   }
-  if (resource.source === "live") {
-    const details = document.createElement("details");
-    details.className = "catalog-content";
-    const summary = document.createElement("summary");
-    summary.textContent = "Ver contenido";
-    const content = document.createElement("pre");
-    content.textContent = "Cargando…";
-    details.append(summary, content);
-    details.addEventListener("toggle", async () => {
-      if (!details.open || details.dataset.loaded) return;
-      try {
-        const response = await fetch(`${publicCatalogUrl}/${encodeURIComponent(resource.id)}`, { cache: "no-store" });
-        if (!response.ok) throw new Error("No se pudo cargar el recurso.");
-        const body = await response.json();
-        content.textContent = body.resource.content || "Este recurso no tiene instrucciones todavía.";
-        details.dataset.loaded = "true";
-      } catch {
-        content.textContent = "No se pudo cargar el contenido. Inténtalo de nuevo.";
-      }
-    });
-    const downloads = document.createElement("div");
-    downloads.className = "catalog-files";
-    const instructions = document.createElement("a");
-    instructions.className = "catalog-download";
-    instructions.href = `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/instrucciones.txt`;
-    instructions.textContent = "Descargar instrucciones (.txt) ↓";
-    downloads.append(instructions);
-    for (const file of resource.files || []) {
-      const link = document.createElement("a");
-      link.className = "catalog-download";
-      link.href = `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/files/${encodeURIComponent(file.id)}`;
-      link.textContent = `Descargar ${file.name} ↓`;
-      downloads.append(link);
-    }
-    article.append(top, title, description, tags, details, downloads);
-  } else {
-    const download = document.createElement("a");
-    download.className = "catalog-download";
-    download.href = `/catalog/files/${encodeURIComponent(resource.file)}`;
-    download.download = resource.file;
-    download.textContent = "Descargar archivo ↗";
-    article.append(top, title, description, tags, download);
-  }
+  const open = document.createElement("a");
+  open.className = "catalog-open";
+  open.href = resource.source === "live"
+    ? `/recurso.html?id=${encodeURIComponent(resource.id)}`
+    : `/recurso.html?file=${encodeURIComponent(resource.file)}`;
+  open.textContent = "Abrir recurso ↗";
+  open.setAttribute("aria-label", `Abrir ${resource.title}`);
+  article.append(top, title, description, tags, open);
   return article;
 }
 
