@@ -672,6 +672,25 @@ select:focus-visible {
   font-size: 14px;
   line-height: 1.8;
 }
+.studio-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 0 30px;
+  padding: 24px 28px;
+  background: #fff;
+  border: 1px solid #dceae6;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px #183b3b0a;
+}
+.studio-callout strong { display: block; margin-bottom: 7px; color: var(--navy); font-size: 17px; }
+.studio-callout p { max-width: 610px; margin: 0; color: #627387; font-size: 13px; line-height: 1.65; }
+.studio-callout .button { flex: none; }
+@media (max-width: 700px) {
+  .studio-callout { display: block; padding: 21px; }
+  .studio-callout .button { margin-top: 18px; width: 100%; }
+}
 .catalog-categories {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

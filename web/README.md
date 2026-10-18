@@ -2,6 +2,8 @@
 
 Esta carpeta contiene una presentación y una biblioteca pública estáticas. No tienen base de datos, inicio de sesión ni acceso a los archivos del estudio privado. La información sobre funciones futuras se identifica como trabajo en desarrollo.
 
+La web pública ofrece un botón **Crear recurso** que abre el [estudio privado](https://tiempo-con-ia-vista-20261017-codex.pablocastenda.chatgpt.site/#recursos). Allí el propietario puede crear, editar y borrar prompts, skills y agentes; los datos se guardan en una base de datos del estudio y permanecen privados. Los recursos del estudio no aparecen automáticamente en el catálogo público de Vercel.
+
 ## Publicar un recurso conmigo
 
 En un chat de Codex con el repositorio `Pablo06Casta/TIEMPO-CON-IA` seleccionado, adjunta un `.txt`, `.md` o `.zip` (o pega el texto del prompt) y escribe `@TIEMPO-CON-IA-WEB`. Puedes incluir título, descripción y tipo; si faltan, los prepararé a partir del contenido. Revisaré el archivo, actualizaré el catálogo, construiré la web y subiré los cambios a GitHub. Vercel desplegará la nueva versión al recibir el commit. Para modificar un recurso, envíalo otra vez con la misma marca e indica cuál reemplaza.
