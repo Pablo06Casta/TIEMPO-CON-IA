@@ -71,6 +71,22 @@ function card(resource) {
     : `/recurso.html?file=${encodeURIComponent(resource.file)}`;
   open.textContent = "Abrir recurso ↗";
   open.setAttribute("aria-label", `Abrir ${resource.title}`);
+  if (resource.source === "live" && resource.cover_file_id) {
+    const figure = document.createElement("figure");
+    figure.className = "catalog-cover";
+    const img = document.createElement("img");
+    img.src = `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/cover`;
+    img.alt = `Resultado de ${resource.title}`;
+    img.loading = "lazy";
+    img.addEventListener("error", () => figure.remove());
+    figure.append(img);
+    if (resource.result_description) {
+      const caption = document.createElement("figcaption");
+      caption.textContent = resource.result_description;
+      figure.append(caption);
+    }
+    article.append(figure);
+  }
   article.append(top, title, description, tags, open);
   return article;
 }

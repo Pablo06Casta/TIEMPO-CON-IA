@@ -57,6 +57,15 @@ function render(resource) {
     item.textContent = `#${tag}`;
     return item;
   }));
+  const cover = document.querySelector("#resource-cover");
+  if (resource.source === "live" && resource.cover_file_id) {
+    const image = document.querySelector("#resource-cover-image");
+    image.src = `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/cover`;
+    image.alt = `Resultado de ${resource.title}`;
+    image.onerror = () => { cover.hidden = true; };
+    document.querySelector("#resource-cover-caption").textContent = resource.result_description || "Así queda el resultado al usar este recurso.";
+    cover.hidden = false;
+  }
   instructionText = resource.content || "";
   instructions.textContent = instructionText || "Este recurso no incluye instrucciones en texto.";
   copyButton.disabled = !instructionText;

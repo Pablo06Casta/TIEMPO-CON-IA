@@ -328,3 +328,12 @@ button { cursor: pointer; }
   .resource-section-heading { align-items: flex-start; flex-direction: column; }
   .resource-file { align-items: flex-start; flex-direction: column; gap: 6px; }
 }
+
+.catalog-cover{margin:-21px -21px 18px;overflow:hidden;border-radius:17px 17px 0 0;background:#e5ecee}
+.catalog-cover img{display:block;width:100%;height:190px;object-fit:cover}
+.catalog-cover figcaption{padding:10px 18px;color:#405463;font-size:12px;line-height:1.4}
+.catalog-card:has(.catalog-cover) h3{margin-top:18px}
+.resource-cover{margin:0 0 58px;border-radius:22px;overflow:hidden;background:#eaf0f2}
+.resource-cover img{display:block;width:100%;max-height:680px;object-fit:contain}
+.resource-cover figcaption{padding:17px 22px;color:#475d6c;font-size:14px;line-height:1.5}
+.resource-cover[hidden]{display:none}
