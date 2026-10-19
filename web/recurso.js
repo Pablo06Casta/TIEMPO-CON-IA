@@ -20,6 +20,47 @@ function fileLink(name, href, size, download = false) {
   return link;
 }
 
+function chunkedFileButton(file) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "resource-file";
+  const label = document.createElement("strong");
+  label.textContent = file.name;
+  const meta = document.createElement("span");
+  meta.textContent = `${(file.size / 1048576).toFixed(1)} MB · Descargar ↓`;
+  button.append(label, meta);
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    try {
+      const parts = [];
+      for (let index = 0; index < file.parts.length; index++) {
+        const path = file.parts[index];
+        if (typeof path !== "string" || !path.startsWith("/catalog/live-files/")) throw new Error("Enlace de descarga inválido.");
+        meta.textContent = `Descargando ${index + 1}/${file.parts.length}…`;
+        const response = await fetch(path);
+        if (!response.ok) throw new Error("No se pudo descargar una parte del archivo.");
+        parts.push(await response.blob());
+      }
+      const blob = new Blob(parts, { type: "application/zip" });
+      if (blob.size !== file.size) throw new Error("El archivo descargado está incompleto.");
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = file.name;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      meta.textContent = "Descarga preparada ↓";
+    } catch (error) {
+      meta.textContent = error.message + " Reintentar ↓";
+    } finally {
+      button.disabled = false;
+    }
+  });
+  return button;
+}
+
 async function loadResource() {
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
@@ -89,7 +130,9 @@ function render(resource) {
   files.replaceChildren();
   if (resource.source === "live") {
     if (instructionText) files.append(fileLink("instrucciones.txt", resource.local ? URL.createObjectURL(new Blob([instructionText], { type: 'text/plain;charset=utf-8' })) : `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/instrucciones.txt`, undefined, resource.local));
-    for (const file of resource.files || []) files.append(fileLink(file.name, file.url || `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/files/${encodeURIComponent(file.id)}`, file.size, !!file.url));
+    for (const file of resource.files || []) files.append(Array.isArray(file.parts) && file.parts.length
+      ? chunkedFileButton(file)
+      : fileLink(file.name, file.url || `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/files/${encodeURIComponent(file.id)}`, file.size, !!file.url));
   } else {
     files.append(fileLink(resource.file, `/catalog/files/${encodeURIComponent(resource.file)}`));
   }

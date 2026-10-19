@@ -349,6 +349,8 @@ button { cursor: pointer; }
 .resource-file-list { display: grid; gap: 10px; }
 .resource-file { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: #f8f9fa; color: var(--navy); }
 .resource-file:hover { border-color: #9bb6c9; background: #eff4f6; }
+.resource-file:is(button) { width: 100%; text-align: left; cursor: pointer; }
+.resource-file:is(button):disabled { cursor: wait; opacity: .7; }
 .resource-file strong { min-width: 0; font-size: 14px; overflow-wrap: anywhere; }
 .resource-file span { flex: none; font-size: 12px; font-weight: 800; }
 .resource-empty { margin: 0; color: var(--muted); font-size: 14px; }
