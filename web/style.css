@@ -146,8 +146,6 @@ button { cursor: pointer; }
 .catalog-extension { padding-top: 5px; }
 .catalog-card h3 { margin: 23px 0 8px; font-size: 24px; line-height: 1.08; letter-spacing: -.055em; overflow-wrap: anywhere; }
 .catalog-benefit { align-self: flex-start; margin-top: 19px; padding: 7px 10px; border-radius: 20px; background: #e6eee9; color: #285343; font-size: 10px; font-weight: 900; letter-spacing: .06em; }
-.catalog-card .catalog-result { margin: 12px 0 0; color: var(--navy); font-size: 15px; font-weight: 800; line-height: 1.35; }
-.catalog-card .catalog-result::before { content: 'RESULTADO ESPERADO'; display: block; margin-bottom: 5px; color: #6b7c85; font-size: 9px; font-weight: 900; letter-spacing: .1em; }
 .catalog-impact { align-self: flex-start; margin: 0 0 14px; padding: 7px 10px; border-radius: 20px; background: #e4edf3; color: var(--navy); font-size: 10px; font-weight: 800; line-height: 1.3; }
 .catalog-impact-note { margin: -8px 0 20px; }
 .catalog-preview { display: inline-flex; align-items: center; align-self: flex-start; margin-top: 17px; padding: 11px 13px; border-radius: 22px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 800; }

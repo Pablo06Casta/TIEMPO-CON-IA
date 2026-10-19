@@ -63,9 +63,10 @@ function render(resource) {
   document.querySelector("#resource-description").textContent = resource.description || "Sin descripción.";
   const resultSummary = document.querySelector("#resource-result-summary");
   resultSummary.textContent = resource.result_description || resource.description || "Consulta las instrucciones y los archivos para conocer lo que puedes conseguir.";
+  resultSummary.hidden = !!resource.cover_file_id;
   document.querySelector("#resource-result-note").textContent = resource.cover_file_id
     ? "La imagen es un ejemplo de resultado aportado con este recurso. Tu resultado dependerá de los datos y de la revisión."
-    : "Resultado esperado según la descripción del recurso. Aún no hay una imagen de ejemplo publicada.";
+    : "Aún no hay una imagen de ejemplo publicada.";
   const tags = document.querySelector("#resource-tags");
   tags.replaceChildren(...(resource.tags || []).map(tag => {
     const item = document.createElement("span");
@@ -77,7 +78,7 @@ function render(resource) {
     const image = document.querySelector("#resource-cover-image");
     image.src = resource.files?.find(file => file.id === resource.cover_file_id)?.url || `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/cover`;
     image.alt = `Resultado de ${resource.title}`;
-    image.onerror = () => { cover.hidden = true; };
+    image.onerror = () => { cover.hidden = true; resultSummary.hidden = false; };
     document.querySelector("#resource-cover-caption").textContent = resource.result_description || "Así queda el resultado al usar este recurso.";
     cover.hidden = false;
   }

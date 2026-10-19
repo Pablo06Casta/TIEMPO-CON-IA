@@ -107,10 +107,6 @@ function card(resource) {
   const impact = document.createElement("span");
   impact.className = "catalog-impact";
   impact.textContent = "AHORRO ORIENTATIVO · ~30 MIN/TAREA*";
-  const result = document.createElement("p");
-  result.className = "catalog-result";
-  result.textContent = resource.result_description || resource.description || "Consulta el resultado esperado en la ficha.";
-
   const title = document.createElement("h3");
   title.textContent = resource.title;
   const description = document.createElement("p");
@@ -138,7 +134,7 @@ function card(resource) {
   const preview = document.createElement("a");
   preview.className = "catalog-preview";
   preview.href = `${open.href}#resultado`;
-  preview.textContent = resource.cover_file_id ? "Ver ejemplo de resultado 👁️" : "Ver resultado esperado 👁️";
+  preview.textContent = "Ver ejemplo de resultado";
   preview.setAttribute("aria-label", `Ver el resultado de ${resource.title}`);
   if (resource.source === "live" && resource.cover_file_id) {
     const figure = document.createElement("figure");
@@ -149,14 +145,14 @@ function card(resource) {
     img.loading = "lazy";
     img.addEventListener("error", () => figure.remove());
     figure.append(img);
-    if (resource.result_description) {
-      const caption = document.createElement("figcaption");
-      caption.textContent = resource.result_description;
-      figure.append(caption);
-    }
+    const caption = document.createElement("figcaption");
+    caption.textContent = resource.result_description || resource.description || "Imagen de ejemplo del recurso.";
+    figure.append(caption);
     article.append(figure);
   }
-  article.append(top, benefit, result, title, description, impact, tags, preview, open);
+  article.append(top, benefit, title, description, impact, tags);
+  if (resource.source === "live" && resource.cover_file_id) article.append(preview);
+  article.append(open);
   return article;
 }
 
