@@ -1,3 +1,5 @@
+import { downloadFileParts } from './download-file.js';
+
 const publicCatalogUrl = "https://tiempo-con-ia-catalogo-20261018.pablocastenda.chatgpt.site/api/resources";
 const labels = { prompt: "PROMPT SIMPLE", skill: "SKILL", agent: "AGENTE", agente: "AGENTE", automatizacion: "AUTOMATIZACIÓN", otro: "RECURSO", complement: "COMPLEMENTO" };
 const loading = document.querySelector("#resource-loading");
@@ -32,25 +34,7 @@ function chunkedFileButton(file) {
   button.addEventListener("click", async () => {
     button.disabled = true;
     try {
-      const parts = [];
-      for (let index = 0; index < file.parts.length; index++) {
-        const path = file.parts[index];
-        if (typeof path !== "string" || !path.startsWith("/catalog/live-files/")) throw new Error("Enlace de descarga inválido.");
-        meta.textContent = `Descargando ${index + 1}/${file.parts.length}…`;
-        const response = await fetch(path);
-        if (!response.ok) throw new Error("No se pudo descargar una parte del archivo.");
-        parts.push(await response.blob());
-      }
-      const blob = new Blob(parts, { type: "application/zip" });
-      if (blob.size !== file.size) throw new Error("El archivo descargado está incompleto.");
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = file.name;
-      document.body.append(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      await downloadFileParts(file, (current, total) => { meta.textContent = `Descargando ${current}/${total}…`; });
       meta.textContent = "Descarga preparada ↓";
     } catch (error) {
       meta.textContent = error.message + " Reintentar ↓";

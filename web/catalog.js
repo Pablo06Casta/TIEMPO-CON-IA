@@ -1,3 +1,5 @@
+import { downloadFileParts } from './download-file.js';
+
 const list = document.querySelector("#catalog-list");
 const search = document.querySelector("#catalog-search");
 const tagSelect = document.querySelector("#catalog-tag");
@@ -151,6 +153,33 @@ function card(resource) {
     article.append(figure);
   }
   article.append(top, benefit, title, description, impact, tags);
+  for (const file of (resource.files || []).filter(item => /\.zip$/i.test(item.name))) {
+    if (Array.isArray(file.parts) && file.parts.length) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'catalog-zip-download';
+      button.textContent = `Descargar ZIP · ${file.name} ↓`;
+      button.addEventListener('click', async () => {
+        button.disabled = true;
+        try {
+          await downloadFileParts(file, (current, total) => { button.textContent = `Descargando ZIP ${current}/${total}…`; });
+          button.textContent = `Descarga preparada · ${file.name}`;
+        } catch (error) {
+          button.textContent = `Error al descargar · Reintentar ${file.name}`;
+        } finally {
+          button.disabled = false;
+        }
+      });
+      article.append(button);
+    } else if (file.url) {
+      const link = document.createElement('a');
+      link.className = 'catalog-zip-download';
+      link.href = file.url;
+      link.download = file.name;
+      link.textContent = `Descargar ZIP · ${file.name} ↓`;
+      article.append(link);
+    }
+  }
   if (resource.source === "live" && resource.cover_file_id) article.append(preview);
   article.append(open);
   return article;

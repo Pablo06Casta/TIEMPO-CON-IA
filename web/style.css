@@ -150,6 +150,9 @@ button { cursor: pointer; }
 .catalog-impact-note { margin: -8px 0 20px; }
 .catalog-preview { display: inline-flex; align-items: center; align-self: flex-start; margin-top: 17px; padding: 11px 13px; border-radius: 22px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 800; }
 .catalog-preview:hover { background: #3c5c78; }
+.catalog-zip-download { display: block; width: 100%; margin-top: 17px; padding: 12px 14px; border: 0; border-radius: 12px; background: #17643d; color: #fff; font-size: 12px; font-weight: 800; line-height: 1.35; text-align: center; overflow-wrap: anywhere; cursor: pointer; }
+.catalog-zip-download:hover { background: #0d5330; }
+.catalog-zip-download:disabled { opacity: .7; cursor: wait; }
 .catalog-card > p { margin: 0 0 18px; color: var(--muted); font-size: 13px; line-height: 1.4; overflow-wrap: anywhere; }
 .catalog-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
 .catalog-tags button { padding: 5px 9px; border: 1px solid var(--line); border-radius: 20px; background: #fff; color: var(--navy); font-size: 11px; }
