@@ -16,7 +16,7 @@ async function studioResources() {
 const groups = [
   { id: "prompt", title: "Prompts simples", description: "Instrucciones listas para copiar y adaptar.", kinds: ["prompt"] },
   { id: "skill", title: "Skills", description: "Instrucciones y archivos para tareas más completas.", kinds: ["skill"] },
-  { id: "otros", title: "Otros recursos", description: "Agentes, automatizaciones y otros materiales.", kinds: ["agente", "automatizacion", "otro", "complement"] },
+  { id: "otros", title: "Otros recursos", description: "Agentes, complementos y otros materiales.", kinds: ["agente", "automatizacion", "otro", "complement"] },
 ];
 const labels = {
   prompt: "PROMPT SIMPLE",
@@ -29,6 +29,52 @@ const labels = {
 
 let resources = [];
 let selectedGroup = "";
+let selectedSector = "";
+const sectorLabels = { ventas: "Captación y ventas", documentos: "Análisis de documentos y estudios", contenidos: "Creación de contenidos y presentaciones" };
+const sectorPatterns = {
+  ventas: /venta|captaci[oó]n|cliente|propuesta|comercial|prospecci[oó]n|negocio/i,
+  documentos: /document|estudio|apunte|esquema|informe|lectura|transcripci[oó]n|acad[eé]mic/i,
+  contenidos: /contenido|presentaci[oó]n|gr[aá]fic|visual|redact|dise[nñ]o|imagen/i,
+};
+
+function sectorsFor(resource) {
+  const text = `${resource.title} ${resource.description} ${resource.category || ""} ${(resource.tags || []).join(" ")}`;
+  return Object.keys(sectorPatterns).filter(sector => sectorPatterns[sector].test(text));
+}
+
+function benefitFor(resource) {
+  const text = `${resource.title} ${resource.description} ${resource.category || ""}`;
+  if (/salud|deporte|fitness/i.test(text)) return "SALUD";
+  if (/acad[eé]mic|apunte|esquema|estudio|educaci[oó]n/i.test(text)) return "EDUCACIÓN";
+  if (/venta|captaci[oó]n|comercial|cliente/i.test(text)) return "VENTAS";
+  if (/gr[aá]fic|dato|anal[ií]sis|informe/i.test(text)) return "ANÁLISIS";
+  return "PRODUCTIVIDAD";
+}
+
+const comparisonExamples = {
+  informe: ["Horas entre fuentes y borradores", "Ejemplo: 3 horas redactando e investigando datos a mano antes de tener una primera versión del informe.", "Un punto de partida en minutos", "Ejemplo: 3 minutos preparando la petición y ejecutando el recurso; después, revisar datos y formato antes de usar el informe."],
+  apuntes: ["Páginas que ordenar una a una", "Leer, clasificar y dar estructura manualmente a cada apartado de unos apuntes extensos.", "Un esquema para revisar", "Usa una skill de esquemas para organizar el material; luego comprueba que no falten ideas ni cifras."],
+  grafica: ["Datos y diseño desde cero", "Limpiar la tabla, elegir la representación y ajustar etiquetas y formato por separado.", "Una gráfica como primer entregable", "Usa la skill de gráficas con tus datos; luego verifica valores, escala, unidades y legibilidad."],
+};
+for (const button of document.querySelectorAll("[data-comparison]")) {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("[data-comparison]").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+    const [beforeTitle, beforeCopy, afterTitle, afterCopy] = comparisonExamples[button.dataset.comparison];
+    document.querySelector("#comparison-before-title").textContent = beforeTitle;
+    document.querySelector("#comparison-before-copy").textContent = beforeCopy;
+    document.querySelector("#comparison-after-title").textContent = afterTitle;
+    document.querySelector("#comparison-after-copy").textContent = afterCopy;
+  });
+}
+for (const button of document.querySelectorAll("[data-sector]")) {
+  button.addEventListener("click", () => {
+    selectedSector = selectedSector === button.dataset.sector ? "" : button.dataset.sector;
+    selectedGroup = "";
+    document.querySelectorAll("[data-sector]").forEach(item => item.setAttribute("aria-pressed", String(item.dataset.sector === selectedSector)));
+    render();
+    document.querySelector("#biblioteca").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
 
 function groupOf(resource) {
   return groups.find((group) => group.kinds.includes(resource.kind));
@@ -55,6 +101,16 @@ function card(resource) {
   extension.textContent = resource.source === "live" ? "PUBLICADO" : resource.file.split(".").at(-1).toUpperCase();
   top.append(kind, extension);
 
+  const benefit = document.createElement("span");
+  benefit.className = "catalog-benefit";
+  benefit.textContent = benefitFor(resource);
+  const impact = document.createElement("span");
+  impact.className = "catalog-impact";
+  impact.textContent = "AHORRO ORIENTATIVO · ~30 MIN/TAREA*";
+  const result = document.createElement("p");
+  result.className = "catalog-result";
+  result.textContent = resource.result_description || resource.description || "Consulta el resultado esperado en la ficha.";
+
   const title = document.createElement("h3");
   title.textContent = resource.title;
   const description = document.createElement("p");
@@ -79,6 +135,11 @@ function card(resource) {
     : `/recurso.html?file=${encodeURIComponent(resource.file)}`;
   open.textContent = "Abrir recurso ↗";
   open.setAttribute("aria-label", `Abrir ${resource.title}`);
+  const preview = document.createElement("a");
+  preview.className = "catalog-preview";
+  preview.href = `${open.href}#resultado`;
+  preview.textContent = resource.cover_file_id ? "Ver ejemplo de resultado 👁️" : "Ver resultado esperado 👁️";
+  preview.setAttribute("aria-label", `Ver el resultado de ${resource.title}`);
   if (resource.source === "live" && resource.cover_file_id) {
     const figure = document.createElement("figure");
     figure.className = "catalog-cover";
@@ -95,7 +156,7 @@ function card(resource) {
     }
     article.append(figure);
   }
-  article.append(top, title, description, tags, open);
+  article.append(top, benefit, result, title, description, impact, tags, preview, open);
   return article;
 }
 
@@ -105,12 +166,13 @@ function render() {
   const filtered = resources.filter((resource) => {
     const tags = resource.tags || [];
     return (!selectedGroup || groupOf(resource)?.id === selectedGroup)
+      && (!selectedSector || sectorsFor(resource).includes(selectedSector))
       && (!selectedTag || tags.some((tag) => tag.toLocaleLowerCase("es") === selectedTag))
       && (!query || `${resource.title} ${resource.description} ${labels[resource.kind]} ${tags.join(" ")}`.toLocaleLowerCase("es").includes(query));
   });
-  const hasFilters = Boolean(selectedGroup || query || selectedTag);
+  const hasFilters = Boolean(selectedGroup || selectedSector || query || selectedTag);
   clearButton.hidden = !hasFilters;
-  resultCount.textContent = `${filtered.length} ${filtered.length === 1 ? "recurso" : "recursos"}${hasFilters ? " encontrados" : " en la biblioteca"}`;
+  resultCount.textContent = `${filtered.length} ${filtered.length === 1 ? "recurso" : "recursos"}${hasFilters ? " encontrados" : " en la biblioteca"}${selectedSector ? ` · ${sectorLabels[selectedSector]}` : ""}`;
   for (const button of groupButtons) {
     button.setAttribute("aria-pressed", String(button.dataset.catalogGroup === selectedGroup));
   }
@@ -157,6 +219,8 @@ search.addEventListener("input", render);
 tagSelect.addEventListener("change", render);
 clearButton.addEventListener("click", () => {
   selectedGroup = "";
+  selectedSector = "";
+  document.querySelectorAll("[data-sector]").forEach(item => item.setAttribute("aria-pressed", "false"));
   search.value = "";
   tagSelect.value = "";
   render();
@@ -185,6 +249,10 @@ async function refreshCatalog() {
   for (const group of groups) {
     const count = resources.filter((resource) => groupOf(resource)?.id === group.id).length;
     document.querySelector(`[data-catalog-count="${group.id}"]`).textContent = `${count} ${count === 1 ? "recurso" : "recursos"}`;
+  }
+  for (const sector of Object.keys(sectorLabels)) {
+    const count = resources.filter(resource => sectorsFor(resource).includes(sector)).length;
+    document.querySelector(`[data-sector-count="${sector}"]`).textContent = `${count} ${count === 1 ? "recurso" : "recursos"} ↗`;
   }
   render();
 }

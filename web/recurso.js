@@ -61,6 +61,11 @@ function render(resource) {
   document.querySelector("#resource-kind").textContent = labels[resource.kind] || "RECURSO";
   document.querySelector("#resource-title").textContent = resource.title;
   document.querySelector("#resource-description").textContent = resource.description || "Sin descripción.";
+  const resultSummary = document.querySelector("#resource-result-summary");
+  resultSummary.textContent = resource.result_description || resource.description || "Consulta las instrucciones y los archivos para conocer lo que puedes conseguir.";
+  document.querySelector("#resource-result-note").textContent = resource.cover_file_id
+    ? "La imagen es un ejemplo de resultado aportado con este recurso. Tu resultado dependerá de los datos y de la revisión."
+    : "Resultado esperado según la descripción del recurso. Aún no hay una imagen de ejemplo publicada.";
   const tags = document.querySelector("#resource-tags");
   tags.replaceChildren(...(resource.tags || []).map(tag => {
     const item = document.createElement("span");
@@ -95,6 +100,7 @@ function render(resource) {
   }
   loading.hidden = true;
   detail.hidden = false;
+  if (location.hash === "#resultado") requestAnimationFrame(() => document.querySelector("#resultado").scrollIntoView({ block: "start" }));
 }
 
 copyButton.addEventListener("click", async () => {

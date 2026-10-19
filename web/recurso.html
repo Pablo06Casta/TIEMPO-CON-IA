@@ -29,17 +29,22 @@
           <p id="resource-description" class="resource-description"></p>
           <div id="resource-tags" class="resource-tags"></div>
         </header>
-        <figure id="resource-cover" class="resource-cover" hidden>
-          <img id="resource-cover-image" alt="">
-          <figcaption id="resource-cover-caption"></figcaption>
-        </figure>
+        <section id="resultado" class="resource-section resource-result" aria-labelledby="result-title">
+          <div class="resource-section-heading"><div><p class="eyebrow">01 / EL RESULTADO</p><h2 id="result-title">Lo que puedes conseguir</h2></div></div>
+          <figure id="resource-cover" class="resource-cover" hidden>
+            <img id="resource-cover-image" alt="">
+            <figcaption id="resource-cover-caption"></figcaption>
+          </figure>
+          <div id="resource-result-summary" class="resource-result-summary"></div>
+          <p id="resource-result-note" class="resource-result-note"></p>
+        </section>
         <section class="resource-section" aria-labelledby="instructions-title">
-          <div class="resource-section-heading"><div><p class="eyebrow">01 / CONTENIDO</p><h2 id="instructions-title">Instrucciones</h2></div><button id="copy-instructions" type="button" class="resource-action">Copiar instrucciones</button></div>
+          <div class="resource-section-heading"><div><p class="eyebrow">02 / CÓMO USARLO</p><h2 id="instructions-title">Instrucciones</h2></div><button id="copy-instructions" type="button" class="resource-action">Copiar instrucciones</button></div>
           <p id="copy-status" class="resource-feedback" role="status" aria-live="polite"></p>
           <pre id="resource-instructions" class="resource-instructions"></pre>
         </section>
         <section class="resource-section" aria-labelledby="files-title">
-          <div class="resource-section-heading"><div><p class="eyebrow">02 / DESCARGAS</p><h2 id="files-title">Archivos adjuntos</h2></div></div>
+          <div class="resource-section-heading"><div><p class="eyebrow">03 / DESCARGAS</p><h2 id="files-title">Archivos adjuntos</h2></div></div>
           <div id="resource-files" class="resource-file-list"></div>
         </section>
       </article>
