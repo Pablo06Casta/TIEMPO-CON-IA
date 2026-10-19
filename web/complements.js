@@ -1,6 +1,13 @@
 import { buildComplementZip, MAX_FILE_BYTES } from "./complements-core.js";
 
 const publicCatalogUrl = "https://tiempo-con-ia-catalogo-20261018.pablocastenda.chatgpt.site/api/resources";
+async function studioSkills() {
+  const local = await fetch('/catalog/live.json', { cache: 'no-store' }).then(response => response.json());
+  if (local.migrated === true && Array.isArray(local.resources)) return local.resources.filter(item => item.kind === 'skill').map(item => ({ ...item, local: true }));
+  const response = await fetch(publicCatalogUrl, { cache: 'no-store' });
+  if (!response.ok) throw new Error('Catálogo del estudio no disponible');
+  return (await response.json()).resources.filter(item => item.kind === 'skill');
+}
 const list = document.querySelector("#complement-list");
 const skillList = document.querySelector("#complement-skill-list");
 const localList = document.querySelector("#complement-local-list");
@@ -101,9 +108,12 @@ async function loadSkill(skill) {
       bytes: await fetchBytes(`/catalog/files/${encodeURIComponent(skill.file)}`, skill.title),
     }] };
   }
-  const detailResponse = await fetch(`${publicCatalogUrl}/${encodeURIComponent(skill.id)}`, { cache: "no-store" });
-  if (!detailResponse.ok) throw new Error(`La skill ${skill.title} ya no está disponible.`);
-  const detail = (await detailResponse.json()).resource;
+  let detail = skill;
+  if (!skill.local) {
+    const detailResponse = await fetch(`${publicCatalogUrl}/${encodeURIComponent(skill.id)}`, { cache: "no-store" });
+    if (!detailResponse.ok) throw new Error(`La skill ${skill.title} ya no está disponible.`);
+    detail = (await detailResponse.json()).resource;
+  }
   if (!detail || detail.kind !== "skill") throw new Error(`La skill ${skill.title} ya no está publicada.`);
   const files = [];
   if (detail.content?.trim()) {
@@ -113,7 +123,7 @@ async function loadSkill(skill) {
   for (const attachment of detail.files || []) {
     files.push({
       name: attachment.name,
-      bytes: await fetchBytes(`${publicCatalogUrl}/${encodeURIComponent(skill.id)}/files/${encodeURIComponent(attachment.id)}`, attachment.name),
+      bytes: await fetchBytes(attachment.url || `${publicCatalogUrl}/${encodeURIComponent(skill.id)}/files/${encodeURIComponent(attachment.id)}`, attachment.name),
     });
   }
   if (!files.length) throw new Error(`La skill ${skill.title} no tiene contenido descargable.`);
@@ -225,10 +235,7 @@ async function loadSkills() {
       if (!response.ok) throw new Error("Catálogo estático no disponible");
       return response.json();
     }),
-    fetch(publicCatalogUrl, { cache: "no-store" }).then(async (response) => {
-      if (!response.ok) throw new Error("Catálogo del estudio no disponible");
-      return (await response.json()).resources;
-    }),
+    studioSkills(),
   ]);
   const staticSkills = staticResult.status === "fulfilled" && Array.isArray(staticResult.value)
     ? staticResult.value.filter((item) => item.kind === "skill").map((item) => ({ ...item, source: "static" })) : [];

@@ -5,6 +5,13 @@ const clearButton = document.querySelector("#catalog-clear");
 const resultCount = document.querySelector("#catalog-results");
 const groupButtons = [...document.querySelectorAll("[data-catalog-group]")];
 const publicCatalogUrl = "https://tiempo-con-ia-catalogo-20261018.pablocastenda.chatgpt.site/api/resources";
+async function studioResources() {
+  const local = await fetch('/catalog/live.json', { cache: 'no-store' }).then(response => response.json());
+  if (local.migrated === true && Array.isArray(local.resources)) return local.resources.map(resource => ({ ...resource, source: 'live' }));
+  const response = await fetch(publicCatalogUrl, { cache: 'no-store' });
+  if (!response.ok) throw new Error('Catálogo no disponible');
+  return (await response.json()).resources.map(resource => ({ ...resource, source: 'live' }));
+}
 
 const groups = [
   { id: "prompt", title: "Prompts simples", description: "Instrucciones listas para copiar y adaptar.", kinds: ["prompt"] },
@@ -75,7 +82,7 @@ function card(resource) {
     const figure = document.createElement("figure");
     figure.className = "catalog-cover";
     const img = document.createElement("img");
-    img.src = `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/cover`;
+    img.src = resource.files?.find(file => file.id === resource.cover_file_id)?.url || `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/cover`;
     img.alt = `Resultado de ${resource.title}`;
     img.loading = "lazy";
     img.addEventListener("error", () => figure.remove());
@@ -160,14 +167,11 @@ async function refreshCatalog() {
       if (!response.ok) throw new Error("Catálogo no disponible");
       return response.json();
     }),
-    fetch(publicCatalogUrl, { cache: "no-store" }).then(async response => {
-      if (!response.ok) throw new Error("Catálogo no disponible");
-      return (await response.json()).resources;
-    })
+    studioResources()
   ]);
   const staticResources = staticResult.status === "fulfilled" && Array.isArray(staticResult.value) ? staticResult.value : [];
   const liveResources = liveResult.status === "fulfilled" && Array.isArray(liveResult.value) ? liveResult.value.map(resource => ({
-    ...resource, kind: resource.kind === "agent" ? "agente" : resource.kind, source: "live"
+    ...resource, kind: resource.kind === "agent" ? "agente" : resource.kind
   })) : [];
   if (staticResult.status === "rejected" && liveResult.status === "rejected") throw new Error("Catálogo no disponible");
   resources = [...liveResources, ...staticResources];

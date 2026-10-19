@@ -7,10 +7,11 @@ const copyButton = document.querySelector("#copy-instructions");
 const copyStatus = document.querySelector("#copy-status");
 let instructionText = "";
 
-function fileLink(name, href, size) {
+function fileLink(name, href, size, download = false) {
   const link = document.createElement("a");
   link.className = "resource-file";
   link.href = href;
+  if (download) link.download = name;
   const label = document.createElement("strong");
   label.textContent = name;
   const meta = document.createElement("span");
@@ -26,6 +27,15 @@ async function loadResource() {
   if (Boolean(id) === Boolean(file)) throw new Error("No se ha indicado un recurso válido.");
   if (id) {
     if (!/^[a-f0-9-]{36}$/.test(id)) throw new Error("El enlace del recurso no es válido.");
+    const localResponse = await fetch('/catalog/live.json', { cache: 'no-store' });
+    if (localResponse.ok) {
+      const local = await localResponse.json();
+      if (local.migrated === true) {
+        const resource = local.resources?.find(item => item.id === id);
+        if (!resource) throw new Error('Este recurso ya no está publicado.');
+        return { ...resource, kind: resource.kind === 'agent' ? 'agente' : resource.kind, source: 'live', local: true };
+      }
+    }
     const response = await fetch(`${publicCatalogUrl}/${encodeURIComponent(id)}`, { cache: "no-store" });
     if (!response.ok) throw new Error(response.status === 404 ? "Este recurso ya no está publicado." : "No se pudo cargar el recurso. Inténtalo de nuevo.");
     const resource = (await response.json()).resource;
@@ -60,7 +70,7 @@ function render(resource) {
   const cover = document.querySelector("#resource-cover");
   if (resource.source === "live" && resource.cover_file_id) {
     const image = document.querySelector("#resource-cover-image");
-    image.src = `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/cover`;
+    image.src = resource.files?.find(file => file.id === resource.cover_file_id)?.url || `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/cover`;
     image.alt = `Resultado de ${resource.title}`;
     image.onerror = () => { cover.hidden = true; };
     document.querySelector("#resource-cover-caption").textContent = resource.result_description || "Así queda el resultado al usar este recurso.";
@@ -72,8 +82,8 @@ function render(resource) {
   const files = document.querySelector("#resource-files");
   files.replaceChildren();
   if (resource.source === "live") {
-    if (instructionText) files.append(fileLink("Instrucciones (.txt)", `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/instrucciones.txt`));
-    for (const file of resource.files || []) files.append(fileLink(file.name, `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/files/${encodeURIComponent(file.id)}`, file.size));
+    if (instructionText) files.append(fileLink("instrucciones.txt", resource.local ? URL.createObjectURL(new Blob([instructionText], { type: 'text/plain;charset=utf-8' })) : `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/instrucciones.txt`, undefined, resource.local));
+    for (const file of resource.files || []) files.append(fileLink(file.name, file.url || `${publicCatalogUrl}/${encodeURIComponent(resource.id)}/files/${encodeURIComponent(file.id)}`, file.size, !!file.url));
   } else {
     files.append(fileLink(resource.file, `/catalog/files/${encodeURIComponent(resource.file)}`));
   }

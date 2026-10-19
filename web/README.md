@@ -1,6 +1,8 @@
 # Web pública · TIEMPO CON IA
 
-Esta carpeta contiene la presentación pública y la interfaz de la biblioteca en Vercel. La página consulta un catálogo público con base de datos; el editor y sus datos privados se alojan por separado. La información sobre funciones futuras se identifica como trabajo en desarrollo.
+Esta carpeta contiene la presentación pública y la interfaz de la biblioteca en Vercel. Los recursos del estudio privado se publican como `public/catalog/live.json` y `public/catalog/live-files/` en GitHub; el repositorio genera un nuevo despliegue en Vercel. El estudio conserva los originales y los archivos privados en su propia base de datos y almacenamiento.
+
+Para migrar los recursos existentes, abre **Más → Publicación en GitHub** en el estudio privado. Introduce allí un token de GitHub limitado a `Pablo06Casta/TIEMPO-CON-IA` con permiso **Contents: Read and write** y pulsa **Copiar todos los recursos publicados**. No envíes el token por chat ni lo guardes en este repositorio. Hasta completar esta copia, la web seguirá leyendo el catálogo anterior para que no desaparezcan los recursos.
 
 El editor privado no está enlazado desde la web pública. Los recursos publicados se sincronizan con el catálogo público. La página de Vercel consulta el catálogo al cargar, al volver a la pestaña y cada 30 segundos mientras está abierta. El contenido completo de cada recurso publicado es público. Cada ficha abre una página propia con descripción, instrucciones copiables y archivos descargables.
 
