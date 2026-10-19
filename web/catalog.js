@@ -16,7 +16,7 @@ async function studioResources() {
 const groups = [
   { id: "prompt", title: "Prompts simples", description: "Instrucciones listas para copiar y adaptar.", kinds: ["prompt"] },
   { id: "skill", title: "Skills", description: "Instrucciones y archivos para tareas más completas.", kinds: ["skill"] },
-  { id: "otros", title: "Otros recursos", description: "Agentes, automatizaciones y otros materiales.", kinds: ["agente", "automatizacion", "otro"] },
+  { id: "otros", title: "Otros recursos", description: "Agentes, automatizaciones y otros materiales.", kinds: ["agente", "automatizacion", "otro", "complement"] },
 ];
 const labels = {
   prompt: "PROMPT SIMPLE",
@@ -24,6 +24,7 @@ const labels = {
   agente: "AGENTE",
   automatizacion: "AUTOMATIZACIÓN",
   otro: "RECURSO",
+  complement: "COMPLEMENTO",
 };
 
 let resources = [];

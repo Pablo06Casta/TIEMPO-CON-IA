@@ -1,5 +1,5 @@
 const publicCatalogUrl = "https://tiempo-con-ia-catalogo-20261018.pablocastenda.chatgpt.site/api/resources";
-const labels = { prompt: "PROMPT SIMPLE", skill: "SKILL", agent: "AGENTE", agente: "AGENTE", automatizacion: "AUTOMATIZACIÓN", otro: "COMPLEMENTO" };
+const labels = { prompt: "PROMPT SIMPLE", skill: "SKILL", agent: "AGENTE", agente: "AGENTE", automatizacion: "AUTOMATIZACIÓN", otro: "RECURSO", complement: "COMPLEMENTO" };
 const loading = document.querySelector("#resource-loading");
 const detail = document.querySelector("#resource-detail");
 const instructions = document.querySelector("#resource-instructions");
